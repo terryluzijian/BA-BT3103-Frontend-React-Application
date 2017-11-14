@@ -1,0 +1,13 @@
+/*Mapbox-related styles*/
+
+div {
+  .mapboxgl-missing-css {
+    display: none;
+  }
+  .mapboxgl-ctrl.mapboxgl-ctrl-attrib {
+    display: none;
+  }
+  .mapboxgl-ctrl-logo {
+    display: none
+  }
+}
