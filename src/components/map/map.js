@@ -2,34 +2,46 @@ import React, { Component } from 'react';
 import mapboxgl from 'mapbox-gl'
 import dotenv from 'dotenv';
 
+import Popup from './popup';
+
 dotenv.config();
 mapboxgl.accessToken = process.env.REACT_APP_MapboxAccessToken;
 
 class Map extends Component {
-  
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      lon: 103.776587,
+      lat: 1.296644,
+      zoom: 16
+    };
+  }
+
   componentDidMount() {
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/light-v9',
-      zoom: 16,
-      center: [103.776587, 1.296644],
+      maxZoom: 17.2,
+      center: [this.state.lon, this.state.lat],
       maxBounds: [
           [103.766871, 1.287695],
           [103.786345, 1.310327]
-      ]
+      ],
+      zoom: this.state.zoom
     });
     var navControl = new mapboxgl.NavigationControl();
     this.map.addControl(navControl, 'bottom-right');
 
-    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false})
-    .setLngLat([103.776587, 1.296644])
-    .setHTML('<div><h3>Bus</h3><p style="padding: 5%">3min</p><div>')
-    .addTo(this.map);
+    this.map.on('move', () => {
+      const { lng, lat } = this.map.getCenter();
+      this.setState({
+        lon: lng.toFixed(7),
+        lat: lat.toFixed(7),
+        zoom: this.map.getZoom().toFixed(2)
+      });
+    });
 
-    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false})
-    .setLngLat([103.774587, 1.295644])
-    .setHTML('<h3>Taxi</h3>')
-    .addTo(this.map);
   }
 
   componentWillUnmount() {
@@ -38,7 +50,9 @@ class Map extends Component {
 
   render() {
     return (
-      <div className="map-container" ref={el => this.mapContainer = el} />
+      <div className="map-container" ref={el => this.mapContainer = el}>
+        <Popup {...this.state} />
+      </div>
     );
   }
 }
