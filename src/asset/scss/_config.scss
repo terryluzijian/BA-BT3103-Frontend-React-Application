@@ -9,6 +9,12 @@ $nma-main-white: #E9ECEF;
 $nma-main-grey: #E8E8E8;
 $nma-main-grey-light: #F5F5F5;
 
+/*
+Screen Specs
+*/
+$mobile-size: 479px;
+$tablet-size: 766px;
+
 @mixin translateY($e) {
 
   -webkit-transform: translateY($e);

@@ -1,4 +1,8 @@
 /*Mapbox-related styles*/
+@import "_config.scss";
+$map-height-default: 650px;
+$map-height-mobile: $map-height-default * 0.85;
+$map-height-tablet: $map-height-default * 0.9;
 
 div {
   .mapboxgl-missing-css {
@@ -9,5 +13,34 @@ div {
   }
   .mapboxgl-ctrl-logo {
     display: none
+  }
+
+  .map-container {
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: $map-height-default;
+    @media screen and (max-width: $mobile-size) {
+      height: $map-height-mobile;
+    }
+    @media screen and (min-width: $mobile-size + 1) and (max-width: $tablet-size) {
+      height: $map-height-tablet;
+    }
+  }
+
+  .mapboxgl-ctrl.mapboxgl-ctrl-group {
+      margin: 15px;
+  }
+
+  canvas {
+    .mapboxgl-canvas {
+      height: $map-height-default;
+      @media screen and (max-width: $mobile-size) {
+        height: $map-height-mobile;
+      }
+      @media screen and (min-width: $mobile-size + 1) and (max-width: $tablet-size) {
+        height: $map-height-tablet;
+      }
+    }
   }
 }
