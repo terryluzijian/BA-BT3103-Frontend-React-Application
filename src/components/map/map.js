@@ -42,6 +42,8 @@ class Map extends Component {
       viewport: FlatMercatorViewport(),
       userLon: -1,
       userLat: -1,
+      failToGetLocation: false,
+
       // Transport data
       taxiData: [],
       taxiSearchDisatance: 0
@@ -68,22 +70,35 @@ class Map extends Component {
 
   handleUserLocation(e) {
     navigator.geolocation.getCurrentPosition((position) => {
-      this.setState({
-        userLat: position.coords.latitude,
-        userLon: position.coords.longitude
-      });
-      if (this.checkUserLocation(this.state.userLat, this.state.userLon)) {
+      if (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) {
+        this.setState({
+          userLat: position.coords.latitude,
+          userLon: position.coords.longitude,
+        });
         this.map.flyTo({
           center: [this.state.userLon, this.state.userLat],
           zoom: 16.5
         });
+      }
+      else {
+        this.setState({
+          userLat: defaultMapState.centerLat,
+          userLon: defaultMapState.centerLon,
+          failToGetLocation: true
+        });
+        this.map.flyTo({
+          center: [defaultMapState.centerLon, defaultMapState.centerLat],
+          zoom: 16.5
+        });
       };
     });
+
+    // Load from server
     this.loadTaxiData();
   }
 
   checkUserLocation(userLat, userLon) {
-    if (userLat > defaultBound[0][1] && userLat < defaultBound[1][1] && userLon > defaultBound[0][0] && userLat < defaultBound[1][0]) {
+    if ((userLat > defaultBound[0][1]) && (userLat < defaultBound[1][1]) && (userLon > defaultBound[0][0]) && (userLon < defaultBound[1][0])) {
       return true;
     }
     else return false;
@@ -92,9 +107,6 @@ class Map extends Component {
   // Lifecycle
 
   componentDidMount() {
-    // Get current location information
-    this.handleUserLocation = this.handleUserLocation.bind(this);
-    this.handleUserLocation();
 
     // Initiate new map
     this.map = new mapboxgl.Map({
@@ -105,6 +117,10 @@ class Map extends Component {
       maxBounds: defaultBound,
       zoom: this.state.zoom
     });
+
+    // Get current location information
+    this.handleUserLocation = this.handleUserLocation.bind(this);
+    this.handleUserLocation();
 
     var navControl = new mapboxgl.NavigationControl();
     this.map.addControl(navControl, 'bottom-right');
@@ -145,9 +161,6 @@ class Map extends Component {
 
     // Handle window resizing
     window.addEventListener('resize', this.handleResize.bind(this));
-
-    // Load from server
-    this.loadTaxiData();
   }
 
   componentWillUnmount() {
@@ -162,8 +175,8 @@ class Map extends Component {
         url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/get-all-taxi",
         type: "get",
         data: {
-          lat: position.coords.latitude,
-          lon: position.coords.longitude
+          lat: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ?  position.coords.latitude : defaultMapState.centerLat,
+          lon: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.longitude : defaultMapState.centerLon
         },
         dataType: 'json',
         cache: false,

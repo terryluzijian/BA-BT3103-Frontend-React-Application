@@ -1,6 +1,6 @@
 /*Mapbox-related styles*/
 @import "_config.scss";
-$map-height-default: 650px;
+$map-height-default: 620px;
 $map-height-mobile: $map-height-default * 0.85;
 $map-height-tablet: $map-height-default * 0.9;
 
@@ -48,53 +48,57 @@ div {
 
     .mapboxgl-popup-content {
       padding: 5px 10px;
+      width: 100%;
+      text-align: center;
     }
 
     .map-icon {
       content: ' ';
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       margin: 5px 5px 2px 5px;
     }
-  }
 
-  .current-location {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    bottom: -16px;
-    left: 35px;
-    z-index: -1;
+    .current-location {
+      position: absolute;
+      width: 100%;
+      height: 10px;
+      bottom: -12px;
+      text-align: center;
+      z-index: -1;
 
-    .location-pin {
-      &:before {
-        content: ' ';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 10px;
-        height: 10px;
-        background-color: #1252a5;
-        border-radius: 50%;
+      .location-pin {
+        &:before {
+          content: ' ';
+          position: relative;
+          margin: auto;
+          display: block;
+          width: 10px;
+          height: 10px;
+          background-color: #1252a5;
+          border-radius: 50%;
+        }
+
+        &:after {
+          content: ' ';
+          position: relative;
+          display: block;
+          margin: auto;
+          width: 10px;
+          height: 10px;
+          background-color: #1252a5;
+          border-radius: 50%;
+          box-shadow: 0 0 10px rgba(0,0,0,.3) inset;
+          -webkit-animation-name: 'ripple';
+          -webkit-animation-duration: 1.2s;
+          -webkit-animation-timing-function: ease;
+          -webkit-animation-delay: 0s;
+          -webkit-animation-iteration-count: infinite;
+          -webkit-animation-direction: normal;
+        }
       }
 
-      &:after {
-        content: ' ';
-        position: absolute;
-        width: 10px;
-        height: 10px;
-        background-color: #1252a5;
-        border-radius: 50%;
-        box-shadow: 0 0 10px rgba(0,0,0,.3) inset;
-        -webkit-animation-name: 'ripple';
-        -webkit-animation-duration: 1.5s;
-        -webkit-animation-timing-function: ease;
-        -webkit-animation-delay: 0s;
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-direction: normal;
-      }
     }
-
   }
 
   canvas {

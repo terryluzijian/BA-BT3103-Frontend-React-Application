@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UserLocation from '../../asset/svg/UserLocation.svg';
+import Home from '../../asset/svg/Home.svg';
 
 class Location extends Component {
 
@@ -17,11 +18,11 @@ class Location extends Component {
       <div className="mapboxgl-popup mapboxgl-popup-anchor-bottom" style={defaultContainerStyle}>
         <div key="tip" className="mapboxgl-popup-tip" />
         <div key="content" className="mapboxgl-popup-content">
-          <img className="map-icon" src={UserLocation} alt='' />
-          <p>{"You're here"}</p>
-          <div className="current-location">
-            <div className="location-pin" />
-          </div>
+          <img className="map-icon" src={this.props.failToGetLocation ? Home : UserLocation} alt='' />
+          <p>{this.props.failToGetLocation ? "Central, NUS" : "You're here"}</p>
+        </div>
+        <div className="current-location">
+          <div className="location-pin" />
         </div>
       </div>
     );
