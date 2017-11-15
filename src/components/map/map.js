@@ -75,7 +75,7 @@ class Map extends Component {
       if (this.checkUserLocation(this.state.userLat, this.state.userLon)) {
         this.map.flyTo({
           center: [this.state.userLon, this.state.userLat],
-          zoom: 17.2
+          zoom: 16.5
         });
       };
     });
