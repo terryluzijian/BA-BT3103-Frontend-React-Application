@@ -6,6 +6,7 @@ import $ from "jquery";
 
 import Location from './location';
 import Taxi from './taxi';
+import Bike from './bike';
 
 import {FlatMercatorViewport} from 'viewport-mercator-project';
 
@@ -46,7 +47,9 @@ class Map extends Component {
 
       // Transport data
       taxiData: [],
-      taxiSearchDisatance: 0
+      taxiSearchDisatance: 0,
+      bikeData: [],
+      bikeSearchDistance: 0
     };
   }
 
@@ -74,6 +77,7 @@ class Map extends Component {
         this.setState({
           userLat: position.coords.latitude,
           userLon: position.coords.longitude,
+          failToGetLocation: false
         });
         this.map.flyTo({
           center: [this.state.userLon, this.state.userLat],
@@ -95,6 +99,7 @@ class Map extends Component {
 
     // Load from server
     this.loadTaxiData();
+    this.loadBikeData();
   }
 
   checkUserLocation(userLat, userLon) {
@@ -193,6 +198,30 @@ class Map extends Component {
     });
   }
 
+  loadBikeData() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      $.ajax({
+        url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/get-all-bikes",
+        type: "get",
+        data: {
+          lat: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ?  position.coords.latitude : defaultMapState.centerLat,
+          lon: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.longitude : defaultMapState.centerLon
+        },
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+          this.setState({
+            bikeData: data.bike.results,
+            bikeSearchDisatance: data.bike.search_distance
+          });
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(status, err.toString());
+        }
+      });
+    });
+  }
+
   // Rendering
 
   renderLocationPopup() {
@@ -223,12 +252,25 @@ class Map extends Component {
     );
   }
 
+  renderBike() {
+    return (
+      <div className="bike">
+      {
+        this.state.bikeData.map((item, index) => (
+          <Bike viewport={this.state.viewport} {...item} key={item.code} />
+        ))
+      }
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="map-container" ref={el => this.mapContainer = el}>
         {this.renderLocationPopup()}
         {this.renderLocateButton()}
         {this.renderTaxi()}
+        {this.renderBike()}
       </div>
     );
   }
