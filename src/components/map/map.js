@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import mapboxgl from 'mapbox-gl'
+
 import dotenv from 'dotenv';
+import $ from "jquery";
 
 import Location from './location';
+import Taxi from './taxi';
 
 import {FlatMercatorViewport} from 'viewport-mercator-project';
 
@@ -38,9 +41,14 @@ class Map extends Component {
       height: 0,
       viewport: FlatMercatorViewport(),
       userLon: -1,
-      userLat: -1
+      userLat: -1,
+      // Transport data
+      taxiData: [],
+      taxiSearchDisatance: 0
     };
   }
+
+  // Event handling
 
   handleResize(e) {
     const newWidth = document.getElementsByClassName("map-container")[0].offsetWidth;
@@ -71,6 +79,7 @@ class Map extends Component {
         });
       };
     });
+    this.loadTaxiData();
   }
 
   checkUserLocation(userLat, userLon) {
@@ -80,11 +89,13 @@ class Map extends Component {
     else return false;
   }
 
+  // Lifecycle
+
   componentDidMount() {
     // Get current location information
     this.handleUserLocation = this.handleUserLocation.bind(this);
     this.handleUserLocation();
-    
+
     // Initiate new map
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
@@ -134,19 +145,50 @@ class Map extends Component {
 
     // Handle window resizing
     window.addEventListener('resize', this.handleResize.bind(this));
+
+    // Load from server
+    this.loadTaxiData();
   }
 
   componentWillUnmount() {
     this.map.remove();
   }
 
-  render_popup() {
+  // AJAX
+
+  loadTaxiData() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      $.ajax({
+        url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/get-all-taxi",
+        type: "get",
+        data: {
+          lat: position.coords.latitude,
+          lon: position.coords.longitude
+        },
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+          this.setState({
+            taxiData: data.taxi.results,
+            taxiSearchDisatance: data.taxi.search_distance
+          });
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(status, err.toString());
+        }
+      });
+    });
+  }
+
+  // Rendering
+
+  renderLocationPopup() {
     return (
       <Location {...this.state} lat={this.state.userLat} lon={this.state.userLon} description={"hello!"} />
     );
   }
 
-  render_locate_button() {
+  renderLocateButton() {
     return (
       <div className="mapboxgl-ctrl-bottom-left" style={defaultButtonStyle}>
         <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
@@ -156,11 +198,24 @@ class Map extends Component {
     );
   }
 
+  renderTaxi() {
+    return (
+      <div className="taxi">
+      {
+        this.state.taxiData.map((item, index) => (
+          <Taxi viewport={this.state.viewport} {...item} key={item.code} />
+        ))
+      }
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="map-container" ref={el => this.mapContainer = el}>
-        {this.render_popup()}
-        {this.render_locate_button()}
+        {this.renderLocationPopup()}
+        {this.renderLocateButton()}
+        {this.renderTaxi()}
       </div>
     );
   }

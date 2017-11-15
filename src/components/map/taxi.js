@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import UserLocation from '../../asset/svg/UserLocation.svg';
+import TaxiIcon from '../../asset/svg/Taxi.svg';
 
-class Location extends Component {
+class Taxi extends Component {
 
   render() {
     var projected = this.props.viewport.project([this.props.lon, this.props.lat]);
@@ -17,15 +17,12 @@ class Location extends Component {
       <div className="mapboxgl-popup mapboxgl-popup-anchor-bottom" style={defaultContainerStyle}>
         <div key="tip" className="mapboxgl-popup-tip" />
         <div key="content" className="mapboxgl-popup-content">
-          <img className="map-icon" src={UserLocation} alt='' />
-          <p>{"You're here"}</p>
-          <div className="current-location">
-            <div className="location-pin" />
-          </div>
+          <img className="map-icon" src={TaxiIcon} alt='' />
+          <p>{(this.props.dist * 1000).toFixed(0)}m</p>
         </div>
       </div>
     );
   }
 }
 
-export default Location;
+export default Taxi;

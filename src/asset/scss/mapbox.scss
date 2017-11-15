@@ -51,10 +51,50 @@ div {
     }
 
     .map-icon {
+      content: ' ';
       width: 40px;
       height: 40px;
-      margin: 5px;
+      margin: 5px 5px 2px 5px;
     }
+  }
+
+  .current-location {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    bottom: -16px;
+    left: 35px;
+    z-index: -1;
+
+    .location-pin {
+      &:before {
+        content: ' ';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        background-color: #1252a5;
+        border-radius: 50%;
+      }
+
+      &:after {
+        content: ' ';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #1252a5;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0,0,0,.3) inset;
+        -webkit-animation-name: 'ripple';
+        -webkit-animation-duration: 1.5s;
+        -webkit-animation-timing-function: ease;
+        -webkit-animation-delay: 0s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-direction: normal;
+      }
+    }
+
   }
 
   canvas {
