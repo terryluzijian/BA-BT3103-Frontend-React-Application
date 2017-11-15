@@ -32,6 +32,31 @@ div {
     margin: 15px;
   }
 
+  .mapboxgl-popup-tip {
+    border: 5px solid transparent;
+  }
+
+  .mapboxgl-popup.mapboxgl-popup-anchor-bottom {
+    text-align: center;
+    margin: 0;
+
+    p {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 600;
+    }
+
+    .mapboxgl-popup-content {
+      padding: 5px 10px;
+    }
+
+    .map-icon {
+      width: 40px;
+      height: 40px;
+      margin: 5px;
+    }
+  }
+
   canvas {
     .mapboxgl-canvas {
       height: $map-height-default;
