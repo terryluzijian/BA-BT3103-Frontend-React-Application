@@ -11,8 +11,8 @@ import Homepage from './components/page/homepage';
 import Signin from './components/page/signin';
 import Transport from './components/page/transport';
 
-import './asset/css/default.min.css';
 import './asset/css/mapbox.min.css';
+import './asset/css/default.min.css';
 
 class App extends Component {
   render() {

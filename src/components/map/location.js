@@ -20,7 +20,7 @@ class Location extends Component {
         <div key="tip" className="mapboxgl-popup-tip" />
         <div key="content" className="mapboxgl-popup-content">
           <img className="map-icon" src={this.props.failToGetLocation ? Home : UserLocation} alt='' />
-          <p>{this.props.failToGetLocation ? "Central, NUS" : "You're here"}</p>
+          {this.props.zoom >= 15.5 && <p>{this.props.failToGetLocation ? "Central, NUS" : "You're here"}</p>}
         </div>
         <div className="current-location">
           <div className="location-pin" />

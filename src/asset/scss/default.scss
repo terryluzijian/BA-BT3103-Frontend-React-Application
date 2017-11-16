@@ -20,7 +20,7 @@ header.white {
 
     /*Extra (DELETE WHEN ACTUAL LOGO IS AVAILABLE)*/
     a {
-      font-size: 1em;
+      font-size: $header-anchor-font-size;
       line-height: normal;
       color: $nma-main-green;
       &:hover {
@@ -35,7 +35,7 @@ header.white {
 
       /*Changed*/
     a {
-      font-size: 1em;
+      font-size: $header-anchor-font-size;
       line-height: normal;
       color: $nma-main-green;
       &:hover {

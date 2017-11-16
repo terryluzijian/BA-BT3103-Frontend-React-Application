@@ -14,6 +14,7 @@ Screen Specs
 */
 $mobile-size: 479px;
 $tablet-size: 766px;
+$header-anchor-font-size: 0.85em;
 
 @mixin translateY($e) {
 
@@ -63,6 +64,7 @@ body {
 
 a {
 
+  font-size: $header-anchor-font-size;
   text-decoration: none;
   font-weight: 500;
   color: $default-white;
@@ -118,7 +120,7 @@ header {
       }
 
       a {
-        font-size: 1em;
+        font-size: $header-anchor-font-size;
         line-height: normal;
       }
 

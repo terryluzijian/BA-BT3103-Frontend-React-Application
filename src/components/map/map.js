@@ -7,6 +7,7 @@ import $ from "jquery";
 import Location from './location';
 import Taxi from './taxi';
 import Bike from './bike';
+import Bus from './bus';
 
 import {FlatMercatorViewport} from 'viewport-mercator-project';
 
@@ -49,7 +50,9 @@ class Map extends Component {
       taxiData: [],
       taxiSearchDisatance: 0,
       bikeData: [],
-      bikeSearchDistance: 0
+      bikeSearchDistance: 0,
+      busData: [],
+      busSearchDistance: 0
     };
   }
 
@@ -100,6 +103,7 @@ class Map extends Component {
     // Load from server
     this.loadTaxiData();
     this.loadBikeData();
+    this.loadBusData();
   }
 
   checkUserLocation(userLat, userLon) {
@@ -187,8 +191,32 @@ class Map extends Component {
         cache: false,
         success: function(data) {
           this.setState({
-            taxiData: data.taxi.results,
-            taxiSearchDisatance: data.taxi.search_distance
+            taxiData: data.taxi.results == null ? [] : data.taxi.results,
+            taxiSearchDisatance: data.taxi.search_distance == null ? 0 : data.taxi.search_distance
+          });
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(status, err.toString());
+        }
+      });
+    });
+  }
+
+  loadBusData() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      $.ajax({
+        url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/get-all-buses",
+        type: "get",
+        data: {
+          lat: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ?  position.coords.latitude : defaultMapState.centerLat,
+          lon: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.longitude : defaultMapState.centerLon
+        },
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+          this.setState({
+            busData: data.bus.results == null ? [] : data.bus.results,
+            busSearchDisatance: data.bus.search_distance == null ? 0 : data.bus.search_distance
           });
         }.bind(this),
         error: function(xhr, status, err) {
@@ -211,8 +239,8 @@ class Map extends Component {
         cache: false,
         success: function(data) {
           this.setState({
-            bikeData: data.bike.results,
-            bikeSearchDisatance: data.bike.search_distance
+            bikeData: data.bike.results == null ? [] : data.bike.results,
+            bikeSearchDisatance: data.bike.search_distance == null ? 0 : data.bike.search_distance
           });
         }.bind(this),
         error: function(xhr, status, err) {
@@ -245,7 +273,19 @@ class Map extends Component {
       <div className="taxi">
       {
         this.state.taxiData.map((item, index) => (
-          <Taxi viewport={this.state.viewport} {...item} key={item.code} />
+          <Taxi viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} />
+        ))
+      }
+      </div>
+    );
+  }
+
+  renderBus() {
+    return (
+      <div className="bus">
+      {
+        this.state.busData.map((item, index) => (
+          <Bus viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} />
         ))
       }
       </div>
@@ -257,7 +297,7 @@ class Map extends Component {
       <div className="bike">
       {
         this.state.bikeData.map((item, index) => (
-          <Bike viewport={this.state.viewport} {...item} key={item.code} />
+          <Bike viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} />
         ))
       }
       </div>
@@ -271,6 +311,7 @@ class Map extends Component {
         {this.renderLocateButton()}
         {this.renderTaxi()}
         {this.renderBike()}
+        {this.renderBus()}
       </div>
     );
   }
