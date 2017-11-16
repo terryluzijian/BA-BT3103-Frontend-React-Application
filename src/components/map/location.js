@@ -12,6 +12,7 @@ class Location extends Component {
       "position": "absolute",
       top: projected[1] || 0,
       left: projected[0] || 0,
+      transform: "translate(-50%, -100%)"
     }
 
     return (
