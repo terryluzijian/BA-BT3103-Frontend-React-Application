@@ -1,6 +1,6 @@
 /*Mapbox-related styles*/
 @import "_config.scss";
-$map-height-default: 500px;
+$map-height-default: 75vh;
 $map-height-mobile: $map-height-default * 0.85;
 $map-height-tablet: $map-height-default * 0.9;
 
@@ -20,12 +20,6 @@ div {
     bottom: 0;
     width: 100%;
     height: $map-height-default;
-    @media screen and (max-width: $mobile-size) {
-      height: $map-height-mobile;
-    }
-    @media screen and (min-width: $mobile-size + 1) and (max-width: $tablet-size) {
-      height: $map-height-tablet;
-    }
   }
 
   .mapboxgl-ctrl.mapboxgl-ctrl-group {
@@ -55,9 +49,41 @@ div {
     }
 
     .mapboxgl-popup-content {
-      padding: 3px 6px;
+      padding: 6px 6px;
       width: 100%;
       text-align: center;
+
+      .transport-info {
+
+        hr {
+
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 0.75px solid $nma-main-grey;
+            margin: 3px 0;
+            padding: 0;
+
+        }
+
+        .wrapped-data {
+          position: relative;
+          width: 160px;
+          height: auto;
+          padding: 1px 2px;
+
+          .data-index {
+            position: absolute;
+          }
+
+          .data-value {
+            text-align: right;
+            position: relative;
+          }
+        }
+
+      }
+
     }
 
     .map-icon-main {
@@ -119,12 +145,6 @@ div {
   canvas {
     .mapboxgl-canvas {
       height: $map-height-default;
-      @media screen and (max-width: $mobile-size) {
-        height: $map-height-mobile;
-      }
-      @media screen and (min-width: $mobile-size + 1) and (max-width: $tablet-size) {
-        height: $map-height-tablet;
-      }
     }
   }
 }

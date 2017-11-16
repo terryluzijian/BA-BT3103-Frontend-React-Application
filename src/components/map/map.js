@@ -84,7 +84,7 @@ class Map extends Component {
         });
         this.map.flyTo({
           center: [this.state.userLon, this.state.userLat],
-          zoom: 16.5
+          zoom: 17
         });
       }
       else {
@@ -95,15 +95,15 @@ class Map extends Component {
         });
         this.map.flyTo({
           center: [defaultMapState.centerLon, defaultMapState.centerLat],
-          zoom: 16.5
+          zoom: 17
         });
       };
     });
 
     // Load from server
-    this.loadTaxiData();
-    this.loadBikeData();
-    this.loadBusData();
+    // this.loadTaxiData();
+    // this.loadBikeData();
+    // this.loadBusData();
   }
 
   checkUserLocation(userLat, userLon) {
@@ -281,6 +281,16 @@ class Map extends Component {
   }
 
   renderBus() {
+    var item = {
+      "arrival": [{"public bus": [{"183": ["4", "-"]}, {"123": ["Arr", "3"]}]}],
+      "lat": 1.28911169277414,
+      "lon": 103.77950843257454,
+      "name": "The Alpha",
+      "code": "16109",
+      "type": "public bus",
+      "brand": "Public",
+      "dist": 0.19160340913707616
+    }
     return (
       <div className="bus">
       {
@@ -288,6 +298,7 @@ class Map extends Component {
           <Bus viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} />
         ))
       }
+        <Bus viewport={this.state.viewport} zoom={this.state.zoom} key={item.code} {...item} />
       </div>
     );
   }

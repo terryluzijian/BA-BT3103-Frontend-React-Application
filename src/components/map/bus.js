@@ -36,6 +36,25 @@ class Bus extends Component {
         <div key="content" className="mapboxgl-popup-content">
           {BusMapIcon}
           {this.props.zoom >= 15.5 && <p>{(this.props.dist * 1000).toFixed(0)}m</p>}
+          <div className="transport-info">
+            <hr />
+            {this.props.zoom >= 15.5 && this.props.arrival.map((item, index) => (
+              Object.keys(item).map((key, index) => (
+                item[key].length ? item[key].map((item, index) => (
+                  Object.keys(item).map((key, index) => (
+                    <div className="wrapped-data" key={key}>
+                      <div className="data-index">
+                        <p className="index">{key}</p>
+                      </div>
+                      <div className="data-value">
+                        <p className="value">{item[key][0] === "Arr" ? "Arrving" : item[key][0]} (Next:{item[key][1]})</p>
+                      </div>
+                    </div>
+                  ))
+                )) : <p>Out of Service</p>
+              ))
+            ))}
+          </div>
         </div>
       </div>
     );
