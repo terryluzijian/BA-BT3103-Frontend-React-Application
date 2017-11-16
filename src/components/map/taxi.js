@@ -15,10 +15,7 @@ class Taxi extends Component {
     }
 
     var iconStyle = {
-      content: ' ',
-      width: "35px",
-      height: "35px",
-      margin: (this.props.zoom < 15.5) ? "0px" : "5px 5px 2px 5px"
+      margin: (this.props.zoom < 15.5) && "0px"
     }
 
     return (

@@ -19,7 +19,7 @@ class Location extends Component {
       <div className="mapboxgl-popup mapboxgl-popup-anchor-bottom" style={defaultContainerStyle}>
         <div key="tip" className="mapboxgl-popup-tip" />
         <div key="content" className="mapboxgl-popup-content">
-          <img className="map-icon" src={this.props.failToGetLocation ? Home : UserLocation} alt='' />
+          <img className="map-icon-main" src={this.props.failToGetLocation ? Home : UserLocation} alt='' />
           {this.props.zoom >= 15.5 && <p>{this.props.failToGetLocation ? "Central, NUS" : "You're here"}</p>}
         </div>
         <div className="current-location">
