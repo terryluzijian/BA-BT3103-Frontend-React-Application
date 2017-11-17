@@ -3,6 +3,8 @@ import BusIcon from '../../asset/svg/Bus.svg';
 import BusSchoolIcon from '../../asset/svg/Bus-School.svg';
 import BusCombinedIcon from '../../asset/svg/Bus-Combined.svg';
 
+import BusChart from '../chart/buschart';
+
 class Bus extends Component {
 
   constructor(props: Props) {
@@ -10,7 +12,8 @@ class Bus extends Component {
     this.state = {
       hide: true,
       hovering: false,
-      dataSize: 1
+      dataSize: 1,
+      busType: []
     };
   }
 
@@ -54,7 +57,8 @@ class Bus extends Component {
       Object.keys(item).map((key, index) => (
         this.setState((prevState) => {
           return {
-            dataSize: prevState.dataSize + item[key].length
+            dataSize: prevState.dataSize + item[key].length,
+            busType: prevState.busType.concat(key)
           }
         })
       ))
@@ -94,7 +98,7 @@ class Bus extends Component {
         <div key="content" className="mapboxgl-popup-content">
           {BusMapIcon}
           {(this.props.zoom >= 15.5 || !this.state.hide) && <p>{(this.props.dist * 1000).toFixed(0)}m</p>}
-          {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: 1.75 + this.state.dataSize * 19}}>
+          {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: 1.75 + this.state.dataSize * 19 + 150}}>
             <hr />
             <div className="wrapped-data">
               <div className="data-index">
@@ -106,20 +110,37 @@ class Bus extends Component {
             </div>
             {this.props.arrival.map((item, index) => (
               Object.keys(item).map((key, index) => (
-                item[key].length ? item[key].map((item, index) => (
+                key === "shuttle bus" || (item[key].length ? item[key].map((item, index) => (
                   Object.keys(item).map((key, index) => (
                     <div className="wrapped-data" key={key}>
                       <div className="data-index">
-                        <p className="index">{key}</p>
+                        <p className="index">{key}{this.state.busType.length <= 1 || " (Public)"}</p>
                       </div>
                       <div className="data-value">
                         <p className="value">{item[key][0] === "Arr" ? "Arrving" : item[key][0]} (Next:{item[key][1]})</p>
                       </div>
                     </div>
                   ))
-                )) : <p>Out of Service</p>
+                )) : <p key={key}>Out of Service</p>)
               ))
             ))}
+            {this.props.arrival.map((item, index) => (
+              Object.keys(item).map((key, index) => (
+                key === "public bus" || (item[key].length ? item[key].map((item, index) => (
+                  Object.keys(item).map((key, index) => (
+                    <div className="wrapped-data" key={key}>
+                      <div className="data-index">
+                        <p className="index">{key}{this.state.busType.length <= 1 || " (Shuttle)"}</p>
+                      </div>
+                      <div className="data-value">
+                        <p className="value">{item[key][0] === "Arr" ? "Arrving" : item[key][0]} (Next:{item[key][1]})</p>
+                      </div>
+                    </div>
+                  ))
+                )) : <p key={key}>Out of Service</p>)
+              ))
+            ))}
+            <BusChart {...this.props} {...this.state} />
           </div>}
         </div>
       </div>

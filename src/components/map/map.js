@@ -101,8 +101,8 @@ class Map extends Component {
     });
 
     // Load from server
-    this.loadTaxiData();
-    this.loadBikeData();
+    // this.loadTaxiData();
+    // this.loadBikeData();
     this.loadBusData();
   }
 
