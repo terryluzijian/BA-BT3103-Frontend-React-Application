@@ -64,9 +64,16 @@ div {
     }
 
     .mapboxgl-popup-content {
-      padding: 6px 6px;
+      padding: 10px 6px;
       width: 100%;
       text-align: center;
+
+      .title {
+        color: $nma-main-grey-medium;
+        font-weight: 500;
+        font-size: 0.75em;
+        padding-top: 0;
+      }
 
       .close-button {
         position: absolute;

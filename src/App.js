@@ -16,8 +16,10 @@ import './asset/css/default.min.css';
 
 import Highcharts from 'highcharts';
 
+var colorList = ['#006284', '#1B813E', '#E3916E', '#FAD689', '#7DB9DE', '#00896C', '#FFBA84'];
+const shuffled = colorList.sort(() => .5 - Math.random());
 Highcharts.theme = {
-  colors: ['#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+  colors: shuffled
 };
 Highcharts.setOptions(Highcharts.theme);
 

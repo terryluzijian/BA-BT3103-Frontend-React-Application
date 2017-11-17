@@ -99,7 +99,8 @@ class Bus extends Component {
           {BusMapIcon}
           {this.state.hide || <a className="close-button">×</a>}
           {(this.props.zoom >= 15.5 || !this.state.hide) && <p>{(this.props.dist * 1000).toFixed(0)}m</p>}
-          {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: 1.75 + this.state.dataSize * 19 + 150}}>
+          {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: 12.9 + 1.75 + this.state.dataSize * 19 + 150}}>
+            <p className="title">{this.state.busType.length > 1 ? "Public Bus/Shuttle Bus" : (this.state.busType[0] === 'public bus' ? 'Public Bus' : 'Shuttle Bus') } Station</p>
             <hr />
             <div className="wrapped-data">
               <div className="data-index">
@@ -122,7 +123,7 @@ class Bus extends Component {
                       </div>
                     </div>
                   ))
-                )) : <p key={key}>Out of Service</p>)
+                )) : <p key={key}>No Public Bus Data</p>)
               ))
             ))}
             {this.props.arrival.map((item, index) => (
@@ -138,7 +139,7 @@ class Bus extends Component {
                       </div>
                     </div>
                   ))
-                )) : <p key={key}>Out of Service</p>)
+                )) : <p key={key}>No Shuttle Bus Data</p>)
               ))
             ))}
             <BusChart {...this.props} {...this.state} />
