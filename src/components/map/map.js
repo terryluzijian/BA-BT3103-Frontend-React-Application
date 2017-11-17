@@ -59,8 +59,8 @@ class Map extends Component {
   // Event handling
 
   handleResize(e) {
-    const newWidth = document.getElementsByClassName("map-container")[0].offsetWidth;
-    const newHeight = document.getElementsByClassName("map-container")[0].offsetHeight;
+    const newWidth = document.getElementsByClassName("map-container")[0] != null ? document.getElementsByClassName("map-container")[0].offsetWidth : 650;
+    const newHeight = document.getElementsByClassName("map-container")[0] != null ? document.getElementsByClassName("map-container")[0].offsetHeight : 650;
     this.setState({
       width: newWidth,
       height: newHeight,
@@ -101,9 +101,9 @@ class Map extends Component {
     });
 
     // Load from server
-    // this.loadTaxiData();
-    // this.loadBikeData();
-    // this.loadBusData();
+    this.loadTaxiData();
+    this.loadBikeData();
+    this.loadBusData();
   }
 
   checkUserLocation(userLat, userLon) {
@@ -121,7 +121,7 @@ class Map extends Component {
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/light-v9',
-      maxZoom: 17.5,
+      maxZoom: 19,
       center: [this.state.centerLon, this.state.centerLat],
       maxBounds: defaultBound,
       zoom: this.state.zoom
@@ -282,13 +282,13 @@ class Map extends Component {
 
   renderBus() {
     var item = {
-      "arrival": [{"public bus": [{"183": ["4", "-"]}, {"123": ["Arr", "3"]}]}],
+      "arrival": [{"public bus": [{"183": ["4", "-"]}, {"123": ["Arr", "3"]}]}, {"shuttle bus": [{"A1": ["4", "-"]}, {"D2": ["2", "5"]}]}],
       "lat": 1.28911169277414,
       "lon": 103.77950843257454,
       "name": "The Alpha",
       "code": "16109",
       "type": "public bus",
-      "brand": "Public",
+      "brand": "Public/NUS",
       "dist": 0.19160340913707616
     }
     return (

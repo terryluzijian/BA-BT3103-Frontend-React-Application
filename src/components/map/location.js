@@ -8,7 +8,7 @@ class Location extends Component {
     var projected = this.props.viewport.project([this.props.lon, this.props.lat]);
 
     const defaultContainerStyle = {
-      "zIndex": "2",
+      "zIndex": "3",
       "position": "absolute",
       top: projected[1] || 0,
       left: projected[0] || 0,

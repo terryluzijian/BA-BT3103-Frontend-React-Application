@@ -1,6 +1,6 @@
 /*Mapbox-related styles*/
 @import "_config.scss";
-$map-height-default: 75vh;
+$map-height-default: 80vh;
 $map-height-mobile: $map-height-default * 0.85;
 $map-height-tablet: $map-height-default * 0.9;
 
@@ -35,10 +35,6 @@ div {
     margin: 0;
     z-index: 1;
 
-    &:hover {
-      z-index: 10;
-    }
-
     p {
       margin: 0;
       font-family: 'Roboto', sans-serif;
@@ -48,12 +44,44 @@ div {
       line-height: normal;
     }
 
+    a {
+      color: $nma-main-green;
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 600;
+      font-size: 0.9em;
+      padding: 2px;
+      line-height: normal;
+      @include transition(.3s ease-in-out);
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: none;
+        color: $nma-main-green-hover;
+        @include transition(.3s ease-in-out);
+      }
+
+    }
+
     .mapboxgl-popup-content {
       padding: 6px 6px;
       width: 100%;
       text-align: center;
 
-      .transport-info {
+      .toggle {
+        position: absolute;
+        right: 6px;
+      }
+
+      .transport-info.hide {
+        height: 0px;
+        width: 0px;
+        transition: .35s ease-in-out;
+      }
+
+      .transport-info.active {
+        width: 220px;
+        transition: .35s ease-in-out;
 
         hr {
 
@@ -68,9 +96,13 @@ div {
 
         .wrapped-data {
           position: relative;
-          width: 160px;
+          width: 220px;
           height: auto;
           padding: 1px 2px;
+
+          .header {
+            color: $nma-main-grey-dark;
+          }
 
           .data-index {
             position: absolute;
@@ -80,6 +112,7 @@ div {
             text-align: right;
             position: relative;
           }
+
         }
 
       }
