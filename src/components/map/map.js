@@ -28,7 +28,7 @@ const defaultBound = [
 const defaultButtonStyle = {
   "float": "right",
   "position": "absolute",
-  "zIndex": 2
+  "zIndex": 99
 }
 
 class Map extends Component {
@@ -101,8 +101,8 @@ class Map extends Component {
     });
 
     // Load from server
-    // this.loadTaxiData();
-    // this.loadBikeData();
+    this.loadTaxiData();
+    this.loadBikeData();
     this.loadBusData();
   }
 

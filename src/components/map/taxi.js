@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import TaxiIcon from '../../asset/svg/Taxi.svg';
 
+import TaxiChart from '../chart/taxichart';
+
 class Taxi extends Component {
 
   constructor(props: Props) {
@@ -68,8 +70,9 @@ class Taxi extends Component {
         <div key="tip" className="mapboxgl-popup-tip" />
         <div key="content" className="mapboxgl-popup-content">
           <img className="map-icon" src={TaxiIcon} alt='' style={iconStyle} />
+          {this.state.hide || <a className="close-button">×</a>}
           {(this.props.zoom >= 15.5 || !this.state.hide) && <p>{(this.props.dist * 1000).toFixed(0)}m</p>}
-          {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: 1.75 + this.state.dataSize * 19}}>
+          {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: 1.75 + this.state.dataSize * 19 + 150}}>
             <hr />
             <div className="wrapped-data">
               <div className="data-index">
@@ -87,6 +90,7 @@ class Taxi extends Component {
                 <a className="value" target="_blank" rel="noopener noreferrer" href="https://itunes.apple.com/us/app/comfortdelgro-taxi-booking/id954951647?ls=1&mt=8">App Download</a>
               </div>
             </div>
+            <TaxiChart {...this.props} {...this.state} />
           </div>}
         </div>
       </div>

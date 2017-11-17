@@ -3,6 +3,8 @@ import Ofo from '../../asset/svg/Bike-Ofo.svg';
 import Obike from '../../asset/svg/Bike-Obike.svg';
 import Mobike from '../../asset/svg/Bike-Mobike.svg';
 
+import BikeChart from '../chart/bikechart';
+
 class Bike extends Component {
 
   constructor(props: Props) {
@@ -81,8 +83,9 @@ class Bike extends Component {
         <div key="tip" className="mapboxgl-popup-tip" />
         <div key="content" className="mapboxgl-popup-content">
           {BikeIcon}
+          {this.state.hide || <a className="close-button">×</a>}
           {(this.props.zoom >= 15.5 || !this.state.hide) && <p>{(this.props.dist * 1000).toFixed(0)}m</p>}
-          {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: 1.75 + this.state.dataSize * 19}}>
+          {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: 1.75 + this.state.dataSize * 19 + 150}}>
             <hr />
             <div className="wrapped-data">
               <div className="data-index">
@@ -97,9 +100,14 @@ class Bike extends Component {
                 <p className="index">{this.props.code}</p>
               </div>
               <div className="data-value">
-                <p className="value">{this.props.brand}</p>
+                <a className="value" target="_blank" rel="noopener noreferrer"
+                  href={this.props.brand === 'Mobike' ? "https://mobike.com/sg/" :
+                  (this.props.brand === 'Obike' ? "https://www.o.bike/" : "https://www.ofo.com/")}>
+                    {this.props.brand}
+                </a>
               </div>
             </div>
+            <BikeChart {...this.props} {...this.state} />
           </div>}
         </div>
       </div>

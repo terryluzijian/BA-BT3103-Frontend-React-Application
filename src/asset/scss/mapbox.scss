@@ -22,6 +22,10 @@ div {
     height: $map-height-default;
   }
 
+  .mapboxgl-ctrl-bottom-right {
+    z-index: 99;
+  }
+
   .mapboxgl-ctrl.mapboxgl-ctrl-group {
     margin: 15px;
   }
