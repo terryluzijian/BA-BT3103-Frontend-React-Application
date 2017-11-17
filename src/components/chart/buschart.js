@@ -41,7 +41,7 @@ class BusChart extends Component {
       },
       series: [{
         name: '',
-        data: [1, 3, 4, 5, 6, 5, 7, 4, 3]
+        data: [Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, 4, 3]
       }]
     });
   }
