@@ -3,10 +3,6 @@ import Highcharts from 'highcharts';
 
 class BikeChart extends Component {
 
-  constructor(props: Props) {
-    super(props);
-  }
-
   componentDidMount() {
 
     var colorList = ['#006284', '#1B813E', '#E3916E', '#FAD689', '#7DB9DE', '#00896C', '#FFBA84',
@@ -50,18 +46,20 @@ class BikeChart extends Component {
         }
       },
       series: [{
-        name: 'Average',
+        name: 'Activity',
         color: shuffled[0],
-        data: [Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, 4,
-          {y: 3}]
+        data: this.props.brand === 'Ofo' ? this.props.ofoNumberData : this.props.chartData
       }]
     });
-    chart.series[0].data[11].setState('hover');
+    chart.series[0].data[chart.series[0].data.length-1].setState('hover');
   }
 
   render() {
     return (
-      <div className="chart-container" ref={el => this.chartContainer = el}></div>
+      <div className="chart-wrapper">
+        <div className="chart-container" ref={el => this.chartContainer = el}></div>
+        <div className="chart-title">{this.props.brand !== 'Ofo' ? <p>Historical Bike Usage</p> : <p>Ofo Bike Number in Campus (Past 12 Hours)</p>}</div>
+      </div>
     );
   }
 

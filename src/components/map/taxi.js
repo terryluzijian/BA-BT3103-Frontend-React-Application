@@ -3,6 +3,8 @@ import TaxiIcon from '../../asset/svg/Taxi.svg';
 
 import TaxiChart from '../chart/taxichart';
 
+import { ClipLoader } from 'react-spinners';
+
 class Taxi extends Component {
 
   constructor(props: Props) {
@@ -49,6 +51,26 @@ class Taxi extends Component {
     }
   }
 
+  renderChart() {
+    var colorList = ['#006284', '#1B813E', '#E3916E', '#FAD689', '#7DB9DE', '#00896C', '#FFBA84',
+                     '#36563C', '#33A6B8', '#D7C4BB', '#D05A6E', '#EBB47E'];
+    const shuffled = colorList.sort(() => .5 - Math.random());
+
+    if(!this.props.taxiNumberLoadingFailure) {
+      return (
+        <div className="rendered-chart">
+          {this.props.taxiNumberLoading && <div className="loader"><ClipLoader size={20} color={shuffled[0]}/></div>}
+          {!this.props.taxiNumberLoading && <TaxiChart {...this.props} {...this.state} />}
+        </div>
+      )
+    }
+    else {
+      return (
+        <p key={this.props.code}>Data Currently Unavailable</p>
+      )
+    }
+  }
+
   render() {
     var projected = this.props.viewport.project([this.props.lon, this.props.lat]);
 
@@ -64,6 +86,8 @@ class Taxi extends Component {
       margin: (this.props.zoom < 15.5) && "0px"
     }
 
+    var contentHeight = (this.props.taxiNumberLoading ? 46 : (150 + this.state.dataSize * 19)) + 19;
+
     return (
       <div className="mapboxgl-popup mapboxgl-popup-anchor-bottom" style={defaultContainerStyle}
         onMouseEnter={this.handleMouseEnter.bind(this)} onMouseLeave={this.handleMouseLeave.bind(this)} onClick={this.hideContent.bind(this)}>
@@ -72,7 +96,7 @@ class Taxi extends Component {
           <img className="map-icon" src={TaxiIcon} alt='' style={iconStyle} />
           {this.state.hide || <a className="close-button">×</a>}
           {(this.props.zoom >= 15.5 || !this.state.hide) && <p>{(this.props.dist * 1000).toFixed(0)}m</p>}
-          {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: 1.75 + this.state.dataSize * 19 + 150}}>
+          {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: contentHeight}}>
             <hr />
             <div className="wrapped-data">
               <div className="data-index">
@@ -90,7 +114,7 @@ class Taxi extends Component {
                 <a className="value" target="_blank" rel="noopener noreferrer" href="https://itunes.apple.com/us/app/comfortdelgro-taxi-booking/id954951647?ls=1&mt=8">App Download</a>
               </div>
             </div>
-            <TaxiChart {...this.props} {...this.state} />
+            {this.renderChart()}
           </div>}
         </div>
       </div>

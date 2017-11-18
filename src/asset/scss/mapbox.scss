@@ -141,14 +141,36 @@ div {
         }
 
         .highcharts-root {
+
           tspan {
             margin: 0;
             font-family: 'Roboto', sans-serif;
             font-weight: 600;
-            font-size: 0.9em;
+            font-size: 0.85em;
             padding: 2px;
             line-height: normal;
           }
+
+          .highcharts-legend {
+
+            tspan {
+              font-size: 0.85em;
+            }
+
+          }
+
+        }
+
+        .chart-wrapper {
+
+          .chart-title {
+
+            position: relative;
+            bottom: 8px;
+            font-size: 0.9em;
+
+          }
+
         }
 
       }

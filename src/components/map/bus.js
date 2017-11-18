@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 import BusIcon from '../../asset/svg/Bus.svg';
 import BusSchoolIcon from '../../asset/svg/Bus-School.svg';
 import BusCombinedIcon from '../../asset/svg/Bus-Combined.svg';
 
 import BusChart from '../chart/buschart';
+import { ClipLoader } from 'react-spinners';
 
 class Bus extends Component {
 
@@ -13,14 +15,42 @@ class Bus extends Component {
       hide: true,
       hovering: false,
       dataSize: 1,
-      busType: []
+      busType: [],
+      chartData: [],
+      loading: true,
+      publicNotAvailable: false
     };
   }
 
+  loadBusTimeInfo() {
+    $.ajax({
+      url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/query-bus-arrival",
+      type: "get",
+      data: {
+        brand: this.props.brand,
+        type: this.props.type,
+        code: this.props.code
+      },
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({
+          chartData: data == null ? [] : data,
+          loading: false,
+        });
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(status, err.toString());
+      }
+    });
+  }
+
   hideContent () {
+    this.state.hide && this.loadBusTimeInfo();
     this.setState ((prevState, props) => {
       return {
-        hide: !prevState.hide
+        hide: !prevState.hide,
+        loading: prevState.hide
       };
     });
   }
@@ -63,6 +93,11 @@ class Bus extends Component {
         })
       ))
     ));
+    this.props.arrival.map((item, index) => (
+      Object.keys(item).map((key, index) => (
+        key !== "public bus" || (item[key].length ? true : this.setState({publicNotAvailable: true}))
+      ))
+    ));
   }
 
   render() {
@@ -75,6 +110,10 @@ class Bus extends Component {
       left: projected[0] || 0,
       transform: "translate(-50%, -100%)",
     }
+
+    var colorList = ['#006284', '#1B813E', '#E3916E', '#FAD689', '#7DB9DE', '#00896C', '#FFBA84',
+                     '#36563C', '#33A6B8', '#D7C4BB', '#D05A6E', '#EBB47E'];
+    const shuffled = colorList.sort(() => .5 - Math.random());
 
     var iconStyle = {
       margin: (this.props.zoom < 15.5) && "0px"
@@ -91,6 +130,8 @@ class Bus extends Component {
       BusMapIcon = <img className="map-icon" src={BusSchoolIcon} alt='' style={iconStyle}/>;
     }
 
+    var contentHeight = (this.state.loading ? 46 : (150 + 19 + 14.5)) + 12.9 + 1.75 + (this.state.dataSize - 1) * 19 + (this.state.publicNotAvailable ? 19 : 0);
+
     return (
       <div className="mapboxgl-popup mapboxgl-popup-anchor-bottom" style={defaultContainerStyle}
         onMouseEnter={this.handleMouseEnter.bind(this)} onMouseLeave={this.handleMouseLeave.bind(this)} onClick={this.hideContent.bind(this)}>
@@ -99,7 +140,7 @@ class Bus extends Component {
           {BusMapIcon}
           {this.state.hide || <a className="close-button">×</a>}
           {(this.props.zoom >= 15.5 || !this.state.hide) && <p>{(this.props.dist * 1000).toFixed(0)}m</p>}
-          {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: 12.9 + 1.75 + this.state.dataSize * 19 + 150}}>
+          {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: contentHeight}}>
             <p className="title">{this.state.busType.length > 1 ? "Public Bus/Shuttle Bus" : (this.state.busType[0] === 'public bus' ? 'Public Bus' : 'Shuttle Bus') } Station</p>
             <hr />
             <div className="wrapped-data">
@@ -142,7 +183,8 @@ class Bus extends Component {
                 )) : <p key={key}>No Shuttle Bus Data</p>)
               ))
             ))}
-            <BusChart {...this.props} {...this.state} />
+            {this.state.loading && <div className="loader"><ClipLoader size={20} color={shuffled[0]}/></div>}
+            {!this.state.loading && <BusChart {...this.props} {...this.state} />}
           </div>}
         </div>
       </div>

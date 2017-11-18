@@ -54,6 +54,14 @@ class Map extends Component {
       bikeSearchDistance: 0,
       busData: [],
       busSearchDistance: 0,
+
+      ofoNumberData: [],
+      taxiNumberData: [],
+      ofoNumberLoading: true,
+      taxiNumberLoading: true,
+
+      ofoNumberLoadingFailure: false,
+      taxiNumberLoadingFailure: false
     };
   }
 
@@ -102,9 +110,9 @@ class Map extends Component {
     });
 
     // Load from server
-    // this.loadTaxiData();
-    // this.loadBikeData();
-    // this.loadBusData();
+    this.loadTaxiData();
+    this.loadBikeData();
+    this.loadBusData();
   }
 
   checkUserLocation(userLat, userLon) {
@@ -171,6 +179,9 @@ class Map extends Component {
 
     // Handle window resizing
     window.addEventListener('resize', this.handleResize.bind(this));
+
+    this.loadOfoBikeData();
+    this.loadTaxiNumberData();
   }
 
   componentWillUnmount() {
@@ -251,6 +262,48 @@ class Map extends Component {
     });
   }
 
+  loadOfoBikeData() {
+    $.ajax({
+      url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/query-ofo-number",
+      type: "get",
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({
+          ofoNumberData: data == null ? [] : data,
+          ofoNumberLoading: false
+        });
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(status, err.toString());
+        this.setState({
+          ofoNumberLoadingFailure: true
+        });
+      }.bind(this)
+    });
+  }
+
+  loadTaxiNumberData() {
+    $.ajax({
+      url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/query-taxi-number",
+      type: "get",
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({
+          taxiNumberData: data == null ? [] : data,
+          taxiNumberLoading: false
+        });
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(status, err.toString());
+        this.setState({
+          taxiNumberLoadingFailure: true
+        });
+      }.bind(this)
+    });
+  }
+
   // Rendering
 
   renderLocationPopup() {
@@ -270,27 +323,36 @@ class Map extends Component {
   }
 
   renderTaxi() {
+    var item = {
+      "lat": 1.29742638901257,
+      "lon": 103.77803111102236,
+      "code": "taxi 123",
+      "type": "taxi",
+      "brand": "Public",
+      "dist": 0.19771657083369631
+    }
     return (
       <div className="taxi">
       {
         this.state.taxiData.map((item, index) => (
-          <Taxi viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} />
+          <Taxi viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} taxiNumberData={this.state.taxiNumberData} taxiNumberLoading={this.state.taxiNumberLoading} taxiNumberLoadingFailure={this.state.taxiNumberLoadingFailure}/>
         ))
       }
+      <Taxi viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} taxiNumberData={this.state.taxiNumberData} taxiNumberLoading={this.state.taxiNumberLoading} taxiNumberLoadingFailure={this.state.taxiNumberLoadingFailure}/>
       </div>
     );
   }
 
   renderBus() {
     var item = {
-      "arrival": [{"public bus": [{"183": ["4", "-"]}, {"123": ["Arr", "3"]}]}, {"shuttle bus": [{"A1": ["4", "-"]}, {"D2": ["2", "5"]}]}],
-      "lat": 1.28911169277414,
-      "lon": 103.77950843257454,
-      "name": "The Alpha",
-      "code": "16109",
-      "type": "public bus",
+      "arrival": [{"public bus": [{"95": ["16", "30"]}, {"123(Dummy)": ["Arr", "3"]}]}, {"shuttle bus": [{"A2": ["4", "-"]}, {"D2": ["2", "5"]}]}],
+      "lat": 1.29752638901257,
+      "lon": 103.77813111102236,
+      "name": "Opp University Hall",
+      "code": "18319/UHALL-OPP",
+      "type": "public bus/shuttle bus",
       "brand": "Public/NUS",
-      "dist": 0.19160340913707616
+      "dist": 0.19771657083369631
     }
     return (
       <div className="bus">
@@ -305,13 +367,31 @@ class Map extends Component {
   }
 
   renderBike() {
+    var item1 = {
+      "lat": 1.29732638901257,
+      "lon": 103.77413111102236,
+      "code": "29",
+      "type": "bike",
+      "brand": "Ofo",
+      "dist": 0.19771657083369631
+    }
+    var item2 = {
+      "lat": 1.29742638901257,
+      "lon": 103.7763111102236,
+      "code": "A006037464#",
+      "type": "bike",
+      "brand": "Mobike",
+      "dist": 0.19771657083369631
+    }
     return (
       <div className="bike">
       {
         this.state.bikeData.map((item, index) => (
-          <Bike viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} />
+          <Bike viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} ofoNumberData={this.state.ofoNumberData} ofoNumberLoading={this.state.ofoNumberLoading} ofoNumberLoadingFailure={this.state.ofoNumberLoadingFailure} />
         ))
       }
+      <Bike viewport={this.state.viewport} {...item1} zoom={this.state.zoom} key={item1.code} ofoNumberData={this.state.ofoNumberData} ofoNumberLoading={this.state.ofoNumberLoading} ofoNumberLoadingFailure={this.state.ofoNumberLoadingFailure} />
+      <Bike viewport={this.state.viewport} {...item2} zoom={this.state.zoom} key={item2.code} ofoNumberData={this.state.ofoNumberData} ofoNumberLoading={this.state.ofoNumberLoading} ofoNumberLoadingFailure={this.state.ofoNumberLoadingFailure} />
       </div>
     );
   }

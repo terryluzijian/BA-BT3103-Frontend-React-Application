@@ -3,10 +3,6 @@ import Highcharts from 'highcharts';
 
 class BusChart extends Component {
 
-  constructor(props: Props) {
-    super(props);
-  }
-
   componentDidMount() {
 
     var colorList = ['#006284', '#1B813E', '#E3916E', '#FAD689', '#7DB9DE', '#00896C', '#FFBA84',
@@ -25,7 +21,17 @@ class BusChart extends Component {
       title: {
         text: ''
       },
-      legend: false,
+      legend: {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'top',
+        floating: true,
+        y: 12,
+        squareSymbol: false,
+        symbolWidth: 9,
+        symbolHeight: 9,
+        symbolRadius: 9
+      },
       xAxis: {
         title: {
           text: ''
@@ -49,19 +55,29 @@ class BusChart extends Component {
           pointWidth: 13
         }
       },
-      series: [{
-        name: 'Average',
-        color: shuffled[0],
-        data: [Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, 4,
-          {y: 3}]
-      }]
+      series: [
+        this.props.chartData['public bus'] != null && {
+          name: 'Public Bus',
+          color: shuffled[0],
+          data: this.props.chartData['public bus']
+        },
+        this.props.chartData['shuttle bus'] != null && {
+          name: 'Shuttle Bus',
+          color: shuffled[1],
+          data: this.props.chartData['shuttle bus']
+        }
+      ]
     });
     chart.series[0].data[11].setState('hover');
+    chart.series[1] != null && chart.series[1].data[11].setState('hover');
   }
 
   render() {
     return (
-      <div className="chart-container" ref={el => this.chartContainer = el}></div>
+      <div className="chart-wrapper">
+        <div className="chart-container" ref={el => this.chartContainer = el}></div>
+        <div className="chart-title"><p>Average Waiting Time (Past 12 Hours)</p></div>
+      </div>
     );
   }
 

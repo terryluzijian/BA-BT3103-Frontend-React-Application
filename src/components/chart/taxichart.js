@@ -3,10 +3,6 @@ import Highcharts from 'highcharts';
 
 class TaxiChart extends Component {
 
-  constructor(props: Props) {
-    super(props);
-  }
-
   componentDidMount() {
 
     var colorList = ['#006284', '#1B813E', '#E3916E', '#FAD689', '#7DB9DE', '#00896C', '#FFBA84',
@@ -48,11 +44,13 @@ class TaxiChart extends Component {
           pointWidth: 13
         }
       },
+      tooltip: {
+        crosshairs: [true,true]
+      },
       series: [{
-        name: 'Average',
+        name: 'Total',
         color: shuffled[0],
-        data: [Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10, 4,
-          {y: 3}]
+        data: this.props.taxiNumberData
       }]
     });
     chart.series[0].data[11].setState('hover');
@@ -60,7 +58,10 @@ class TaxiChart extends Component {
 
   render() {
     return (
-      <div className="chart-container" ref={el => this.chartContainer = el}></div>
+      <div className="chart-wrapper">
+        <div className="chart-container" ref={el => this.chartContainer = el}></div>
+        <div className="chart-title"><p>Total Taxi Number Around Campus (Past 12 Hours)</p></div>
+      </div>
     );
   }
 
