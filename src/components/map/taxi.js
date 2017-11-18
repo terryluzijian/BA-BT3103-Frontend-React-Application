@@ -66,7 +66,7 @@ class Taxi extends Component {
     }
     else {
       return (
-        <p key={this.props.code}>Data Currently Unavailable</p>
+        <p key={this.props.code} className="unavailable">Data Currently Unavailable</p>
       )
     }
   }

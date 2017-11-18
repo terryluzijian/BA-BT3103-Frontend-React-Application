@@ -51,7 +51,7 @@ class BikeChart extends Component {
         data: this.props.brand === 'Ofo' ? this.props.ofoNumberData : this.props.chartData
       }]
     });
-    chart.series[0].data[chart.series[0].data.length-1].setState('hover');
+    chart.series[0].data[chart.series[0].data.length-1] != null && chart.series[0].data[chart.series[0].data.length-1].setState('hover');
   }
 
   render() {

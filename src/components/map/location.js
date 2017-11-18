@@ -4,23 +4,81 @@ import Home from '../../asset/svg/Home.svg';
 
 class Location extends Component {
 
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      hide: true,
+      hovering: false,
+      dataSize: 2
+    };
+  }
+
+  hideContent () {
+    this.setState ((prevState, props) => {
+      return {
+        hide: !prevState.hide,
+        loading: prevState.hide
+      };
+    });
+  }
+
+  handleMouseEnter() {
+    this.setState({
+      hovering: true
+    });
+  }
+
+  handleMouseLeave() {
+    this.setState({
+      hovering: false
+    });
+  }
+
+  getZIndex() {
+    if (!this.state.hide && this.state.hovering) {
+      return 13;
+    }
+    else if (!this.state.hide && !this.state.hovering) {
+      return 12;
+    }
+    else if (this.state.hide && this.state.hovering) {
+      return 14;
+    }
+    else {
+      return 1;
+    }
+  }
+
   render() {
     var projected = this.props.viewport.project([this.props.lon, this.props.lat]);
 
     const defaultContainerStyle = {
-      "zIndex": "3",
+      "zIndex": this.getZIndex() + 1,
       "position": "absolute",
       top: projected[1] || 0,
       left: projected[0] || 0,
       transform: "translate(-50%, -100%)"
     }
 
+    var contentHeight = (this.state.dataSize * 19 + 150) + 19;
+
     return (
-      <div className="mapboxgl-popup mapboxgl-popup-anchor-bottom" style={defaultContainerStyle}>
+      <div className="mapboxgl-popup mapboxgl-popup-anchor-bottom" style={defaultContainerStyle} onMouseEnter={this.handleMouseEnter.bind(this)} onMouseLeave={this.handleMouseLeave.bind(this)} onClick={this.hideContent.bind(this)}>
         <div key="tip" className="mapboxgl-popup-tip" />
         <div key="content" className="mapboxgl-popup-content">
           <img className="map-icon-main" src={this.props.failToGetLocation ? Home : UserLocation} alt='' />
           {this.props.zoom >= 15.5 && <p>{this.props.failToGetLocation ? "Central, NUS" : "You're here"}</p>}
+          {this.state.hide ? <div className="transport-info hide"/> :
+            <div className="transport-info active" style={{height: contentHeight}}>
+              <div className="wrapped-data">
+                <div className="data-index">
+                  <p className="header">Bike Code</p>
+                </div>
+                <div className="data-value">
+                  <p className="header">Brand</p>
+                </div>
+              </div>
+            </div>}
         </div>
         <div className="current-location">
           <div className="location-pin" />

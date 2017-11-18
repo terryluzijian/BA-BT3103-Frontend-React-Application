@@ -87,18 +87,26 @@ class Bike extends Component {
     var colorList = ['#006284', '#1B813E', '#E3916E', '#FAD689', '#7DB9DE', '#00896C', '#FFBA84',
                      '#36563C', '#33A6B8', '#D7C4BB', '#D05A6E', '#EBB47E'];
     const shuffled = colorList.sort(() => .5 - Math.random());
-    
-    if (!this.props.ofoNumberLoadingFailure) {
-      return (
-        <div className="rendered-chart">
-          {this.props.brand !== 'Ofo' ? (this.state.loading && <div className="loader"><ClipLoader size={20} color={shuffled[0]}/></div>) : (this.props.ofoNumberLoading && <div className="loader"><ClipLoader size={20} color={shuffled[0]}/></div>)}
-          {this.props.brand !== 'Ofo' ? (!this.state.loading && <BikeChart {...this.props} {...this.state} />) : (!this.props.ofoNumberLoading && <BikeChart {...this.props} {...this.state} />)}
-        </div>
-      )
+
+    if (this.props.brand === 'Ofo') {
+      if (!this.props.ofoNumberLoadingFailure) {
+        return (
+          <div className="rendered-chart">
+            {this.props.ofoNumberLoading && <div className="loader"><ClipLoader size={20} color={shuffled[0]}/></div>}
+            {!this.props.ofoNumberLoading && <BikeChart {...this.props} {...this.state} />}
+          </div>
+        )
+      }
+      else {
+        <p key={this.props.code} className="unavailable">Data Currently Unavailable</p>
+      }
     }
     else {
       return (
-        <p key={this.props.code}>Data Currently Unavailable</p>
+        <div className="rendered-chart">
+          {this.state.loading && <div className="loader"><ClipLoader size={20} color={shuffled[0]}/></div>}
+          {!this.state.loading && <BikeChart {...this.props} {...this.state} />}
+        </div>
       )
     }
   }

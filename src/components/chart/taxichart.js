@@ -53,7 +53,7 @@ class TaxiChart extends Component {
         data: this.props.taxiNumberData
       }]
     });
-    chart.series[0].data[11].setState('hover');
+    chart.series[0].data[11] != null && chart.series[0].data[11].setState('hover');
   }
 
   render() {
