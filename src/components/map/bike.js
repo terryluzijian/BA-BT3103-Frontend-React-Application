@@ -98,7 +98,9 @@ class Bike extends Component {
         )
       }
       else {
-        <p key={this.props.code} className="unavailable">Data Currently Unavailable</p>
+        return (
+          <p key={this.props.code} className="unavailable">Data Currently Unavailable</p>
+        )
       }
     }
     else {

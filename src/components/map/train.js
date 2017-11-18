@@ -14,6 +14,7 @@ class Train extends Component {
       hovering: false,
       dataSize: 1,
       trainData: [],
+      tweetData: [],
       loading: true
     };
   }
@@ -27,13 +28,27 @@ class Train extends Component {
       success: function(data) {
         this.setState({
           trainData: data.mrt.CKRG == null ? [] : data.mrt.CKRG,
+        });
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(status, err.toString());
+      }
+    }).then(
+    $.ajax({
+      url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/get-twitter?lat=-1&lon=-1",
+      type: "get",
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({
+          tweetData: data.tweets.results == null ? [] : data.tweets.results,
           loading: false
         });
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(status, err.toString());
       }
-    });
+    }));
   }
 
   hideContent () {
@@ -73,6 +88,38 @@ class Train extends Component {
     }
   }
 
+  renderTrainInfo() {
+
+    const tweetDefaultStyle = {
+      'paddingTop': '5px'
+    }
+
+    return (
+      <div className="wrapped-train-info">
+        <div className="train-info">
+          {Object.keys(this.state.trainData).map((key, index) => (
+            <div className="wrapped-data" key={key}>
+              <div className="data-index">
+                <p className="index">{key}</p>
+              </div>
+              <div className="data-value">
+                <p className="value">{this.state.trainData[key][0]} (Next:{this.state.trainData[key][1] == null ? '-' : this.state.trainData[key][1]})</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="train-info" style={tweetDefaultStyle}>
+          <i className="fa fa-twitter" style={{'fontSize': 30, 'color': this.state.tweetData[0]['tag'] === 'pos' ? '#D05A6E' : '#006284'}}/>
+          <div className="wrapped-data" key={'tweet'}>
+            <div className="data-index">
+              <p className="index">{this.state.tweetData[0]['full_text']}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     var projected = this.props.viewport.project([this.props.lon, this.props.lat]);
 
@@ -92,7 +139,7 @@ class Train extends Component {
       margin: (this.props.zoom < 15.5) && "0px"
     }
 
-    var contentHeight = (this.state.loading ? 46 : 0) + 12.9 + 1.75 + (this.state.loading ? 0 : (Object.keys(this.state.trainData).length + 1) * 19);
+    var contentHeight = (this.state.loading ? 46 : 0) + 12.9 + 1.75 + (this.state.loading ? 0 : (Object.keys(this.state.trainData).length + 1) * 19 + 140);
 
     return (
       <div className="mapboxgl-popup mapboxgl-popup-anchor-bottom" style={defaultContainerStyle}
@@ -114,18 +161,7 @@ class Train extends Component {
               </div>
             </div>
             {this.state.loading && <div className="loader"><ClipLoader size={20} color={shuffled[0]}/></div>}
-            {!this.state.loading &&
-              Object.keys(this.state.trainData).map((key, index) => (
-                <div className="wrapped-data" key={key}>
-                  <div className="data-index">
-                    <p className="index">{key}</p>
-                  </div>
-                  <div className="data-value">
-                    <p className="value">{this.state.trainData[key][0]} (Next:{this.state.trainData[key][1] == null ? '-' : this.state.trainData[key][1]})</p>
-                  </div>
-                </div>
-              ))
-            }
+            {!this.state.loading && this.renderTrainInfo()}
           </div>}
         </div>
       </div>

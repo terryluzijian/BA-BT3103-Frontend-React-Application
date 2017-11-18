@@ -110,9 +110,9 @@ class Map extends Component {
     });
 
     // Load from server
-    this.loadTaxiData();
-    this.loadBikeData();
-    this.loadBusData();
+    // this.loadTaxiData();
+    // this.loadBikeData();
+    // this.loadBusData();
   }
 
   checkUserLocation(userLat, userLon) {
@@ -180,8 +180,8 @@ class Map extends Component {
     // Handle window resizing
     window.addEventListener('resize', this.handleResize.bind(this));
 
-    this.loadOfoBikeData();
-    this.loadTaxiNumberData();
+    // this.loadOfoBikeData();
+    // this.loadTaxiNumberData();
   }
 
   componentWillUnmount() {

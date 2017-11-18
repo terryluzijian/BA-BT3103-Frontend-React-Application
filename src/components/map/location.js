@@ -9,7 +9,7 @@ class Location extends Component {
     this.state = {
       hide: true,
       hovering: false,
-      dataSize: 2
+      dataSize: 4
     };
   }
 
@@ -60,7 +60,7 @@ class Location extends Component {
       transform: "translate(-50%, -100%)"
     }
 
-    var contentHeight = (this.state.dataSize * 19 + 150) + 19;
+    var contentHeight = this.state.dataSize * 19;
 
     return (
       <div className="mapboxgl-popup mapboxgl-popup-anchor-bottom" style={defaultContainerStyle} onMouseEnter={this.handleMouseEnter.bind(this)} onMouseLeave={this.handleMouseLeave.bind(this)} onClick={this.hideContent.bind(this)}>
@@ -70,12 +70,37 @@ class Location extends Component {
           {this.props.zoom >= 15.5 && <p>{this.props.failToGetLocation ? "Central, NUS" : "You're here"}</p>}
           {this.state.hide ? <div className="transport-info hide"/> :
             <div className="transport-info active" style={{height: contentHeight}}>
+              <hr />
               <div className="wrapped-data">
                 <div className="data-index">
-                  <p className="header">Bike Code</p>
+                  <p className="header">Traffic Type</p>
                 </div>
                 <div className="data-value">
-                  <p className="header">Brand</p>
+                  <p className="header">Number</p>
+                </div>
+              </div>
+              <div className="wrapped-data">
+                <div className="data-index">
+                  <p className="index">Bike</p>
+                </div>
+                <div className="data-value">
+                  <p className="value">{this.props.bikeData.length}</p>
+                </div>
+              </div>
+              <div className="wrapped-data">
+                <div className="data-index">
+                  <p className="index">Bus Station</p>
+                </div>
+                <div className="data-value">
+                  <p className="value">{this.props.busData.length}</p>
+                </div>
+              </div>
+              <div className="wrapped-data">
+                <div className="data-index">
+                  <p className="index">Taxi</p>
+                </div>
+                <div className="data-value">
+                  <p className="value">{this.props.taxiData.length}</p>
                 </div>
               </div>
             </div>}
