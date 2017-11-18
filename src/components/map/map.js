@@ -8,6 +8,7 @@ import Location from './location';
 import Taxi from './taxi';
 import Bike from './bike';
 import Bus from './bus';
+import Train from './train';
 
 import {FlatMercatorViewport} from 'viewport-mercator-project';
 
@@ -22,7 +23,7 @@ const defaultMapState = {
 
 const defaultBound = [
   [103.766871, 1.287695],
-  [103.786345, 1.310327]
+  [103.787345, 1.310327]
 ]
 
 const defaultButtonStyle = {
@@ -52,7 +53,7 @@ class Map extends Component {
       bikeData: [],
       bikeSearchDistance: 0,
       busData: [],
-      busSearchDistance: 0
+      busSearchDistance: 0,
     };
   }
 
@@ -101,9 +102,9 @@ class Map extends Component {
     });
 
     // Load from server
-    this.loadTaxiData();
-    this.loadBikeData();
-    this.loadBusData();
+    // this.loadTaxiData();
+    // this.loadBikeData();
+    // this.loadBusData();
   }
 
   checkUserLocation(userLat, userLon) {
@@ -315,6 +316,14 @@ class Map extends Component {
     );
   }
 
+  renderTrain() {
+    return (
+      <div className="train">
+        <Train zoom={this.state.zoom} userLat={this.state.userLat} userLon={this.state.userLon} viewport={this.state.viewport} key={"Kent Ridge MRT Station"} name={"Kent Ridge MRT Station"} lat={1.293638} lon={103.784496} />
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="map-container" ref={el => this.mapContainer = el}>
@@ -323,6 +332,7 @@ class Map extends Component {
         {this.renderTaxi()}
         {this.renderBike()}
         {this.renderBus()}
+        {this.renderTrain()}
       </div>
     );
   }

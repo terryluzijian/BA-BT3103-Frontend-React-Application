@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "dotenv": "^4.0.0",
+    "emotion": "^8.0.10",
+    "geolib": "^2.0.24",
     "gulp": "^3.9.1",
     "gulp-changed": "^3.1.1",
     "gulp-clean-css": "^3.9.0",
@@ -17,6 +19,7 @@
     "react-dom": "^16.1.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
+    "react-spinners": "^0.2.1",
     "viewport-mercator-project": "^4.1.1"
   },
   "scripts": {
