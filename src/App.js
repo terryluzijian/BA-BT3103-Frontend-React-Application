@@ -16,6 +16,8 @@ import './asset/css/default.min.css';
 
 import Highcharts from 'highcharts';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 var colorList = ['#006284', '#1B813E', '#E3916E', '#FAD689', '#7DB9DE', '#00896C', '#FFBA84'];
 const shuffled = colorList.sort(() => .5 - Math.random());
 Highcharts.theme = {
@@ -26,17 +28,19 @@ Highcharts.setOptions(Highcharts.theme);
 class App extends Component {
   render() {
     return (
-      <Router>
-        <div className="main-app">
+      <MuiThemeProvider>
+        <Router>
+          <div className="main-app">
 
-          <Route component={Header} />
-          <Route exact path="/" component={Homepage} />
-          <Route exact path="/signin" component={Signin} />
-          <Route exact path="/transport" component={Transport} />
-          <Footer />
+            <Route component={Header} />
+            <Route exact path="/" component={Homepage} />
+            <Route exact path="/signin" component={Signin} />
+            <Route exact path="/transport" component={Transport} />
+            <Footer />
 
-        </div>
-      </Router>
+          </div>
+        </Router>
+      </MuiThemeProvider>
     );
   }
 }

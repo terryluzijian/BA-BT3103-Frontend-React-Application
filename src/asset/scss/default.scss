@@ -1,4 +1,5 @@
 @import "_config.scss";
+@import "_font.scss";
 
 header.dark {
 
@@ -59,5 +60,37 @@ footer {
   color: $nma-main-green;
   text-align: center;
   padding: 2%;
+
+}
+
+.jumbotron.jumbotron-fluid.text-center {
+
+  background-color: $nma-main-green;
+  color: $default-white;
+  padding: 5% 7% 10% 7%;
+  margin: 0;
+  font-family: 'Cera', sans-serif;
+
+  h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    @media screen and (max-width: $mobile-size) {
+      font-size: 1.8rem;
+    }
+    @media screen and (min-width: $mobile-size + 1) and (max-width: $tablet-size) {
+      font-size: 2rem;
+    }
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 200;
+    @media screen and (max-width: $mobile-size) {
+      font-size: 1.4rem;
+    }
+    @media screen and (min-width: $mobile-size + 1) and (max-width: $tablet-size) {
+      font-size: 1.6rem;
+    }
+  }
 
 }
