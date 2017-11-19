@@ -9,6 +9,9 @@ import Footer from './components/footer/footer';
 
 import Homepage from './components/page/homepage';
 import Signin from './components/page/signin';
+import Signup from './components/page/signup';
+import Verify from './components/page/verify';
+import Forget from './components/page/forget';
 import Transport from './components/page/transport';
 
 import './asset/css/mapbox.min.css';
@@ -35,6 +38,9 @@ class App extends Component {
             <Route component={Header} />
             <Route exact path="/" component={Homepage} />
             <Route exact path="/signin" component={Signin} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/verify" component={Verify} />
+            <Route exact path="/forget" component={Forget} />
             <Route exact path="/transport" component={Transport} />
             <Footer />
 

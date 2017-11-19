@@ -24,7 +24,7 @@ const buttonStyle = {
   marginTop: 15,
 };
 
-class Signin extends Component {
+class Verify extends Component {
   render() {
     return (
 
@@ -33,32 +33,27 @@ class Signin extends Component {
 
           <div className="main-text">
             <h1>
-              Log in for Better Experience
+              Sign up for Better Experience
             </h1>
             <h2>
-              Enter your username and password, and enjoy customizable search functionalities
+              Register for your username and password, and enjoy customizable search functionalities
             </h2>
           </div>
 
-          <div className="upper-globe register">
+          <div className="upper-globe verify">
               <div className="internal"></div>
           </div>
 
-          <div className="form-data">
-            <h1>Sign in</h1>
+          <div className="form-data verify">
+            <h1>Verify</h1>
             <TextField className="input-form" hintText="" floatingLabelText="Email Address" floatingLabelFixed={true}
               errorStyle={styles.errorStyle} floatingLabelStyle={styles.floatingLabelStyle} underlineFocusStyle={styles.underlineStyle}
               floatingLabelFocusStyle={styles.floatingLabelFocusStyle}/><br />
-            <TextField className="input-form" hintText="" floatingLabelText="Password" floatingLabelFixed={true} type="password"
+            <TextField className="input-form" hintText="" floatingLabelText="Verification Code" floatingLabelFixed={true} type="password"
               errorStyle={styles.errorStyle} floatingLabelStyle={styles.floatingLabelStyle} underlineFocusStyle={styles.underlineStyle}
               floatingLabelFocusStyle={styles.floatingLabelFocusStyle}/><br />
-            <RaisedButton className="darker-button" type="submit" label="Sign in" primary={true} style={buttonStyle} />
-            <div className="link-group">
-              <hr />
-              <Link to="/signup">Sign up Now</Link>
-              <Link to="/verify">Verify Account</Link>
-              <Link to="/forget">Forget Password</Link>
-            </div>
+            <RaisedButton className="dark-button" label="Back" primary={true} style={buttonStyle} containerElement={<Link to="/signin"></Link>}/>
+            <RaisedButton className="darker-button" type="submit" label="Verify" primary={true} style={buttonStyle} />
           </div>
 
         </div>
@@ -68,4 +63,4 @@ class Signin extends Component {
   }
 }
 
-export default Signin;
+export default Verify;

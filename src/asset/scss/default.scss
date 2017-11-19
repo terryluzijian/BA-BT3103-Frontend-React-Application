@@ -5,6 +5,7 @@ header.dark {
 
   background-color: $nma-main-green;
   color: $default-white;
+  @include transition(.3s ease-in-out);
 
 }
 
@@ -13,8 +14,9 @@ header.white {
   /*Changed*/
   background-color: $nma-main-grey-light;
   color: $nma-main-green;
+  @include transition(.3s ease-in-out);
   /*Extra*/
-  box-shadow: 0 1px 20px 0 rgba(82,82,82,0.50);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
   z-index: 1;
 
   .logo {
@@ -59,7 +61,24 @@ footer {
   font-weight: 600;
   color: $nma-main-green;
   text-align: center;
-  padding: 2%;
+  padding: 24px 2%;
+  z-index: -1;
+
+  a, i {
+    font-size: $header-anchor-font-size;
+    line-height: normal;
+    color: $nma-main-green;
+    &:hover {
+      color: $nma-main-green-hover !important;
+      @include transition(.3s ease-in-out);
+    }
+  }
+
+  p {
+    font-size: 9px;
+    font-weight: 400;
+    margin: 6px 6px 0 6px;
+  }
 
 }
 
@@ -67,29 +86,158 @@ footer {
 
   background-color: $nma-main-green;
   color: $default-white;
-  padding: 5% 7% 10% 7%;
+  padding: 5% 0 0 0;
   margin: 0;
   font-family: 'Cera', sans-serif;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  z-index: 1;
+
+  h1, h2 {
+    padding: 0 7%;
+    margin: 20px 0;
+  }
 
   h1 {
-    font-size: 2.2rem;
+    font-size: 2.1rem;
     font-weight: 600;
     @media screen and (max-width: $mobile-size) {
-      font-size: 1.8rem;
+      font-size: 1.7rem;
     }
     @media screen and (min-width: $mobile-size + 1) and (max-width: $tablet-size) {
-      font-size: 2rem;
+      font-size: 1.9rem;
     }
   }
 
   h2 {
-    font-size: 1.8rem;
-    font-weight: 200;
+    font-size: 1.7rem;
+    font-weight: 300;
     @media screen and (max-width: $mobile-size) {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
     }
     @media screen and (min-width: $mobile-size + 1) and (max-width: $tablet-size) {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
+    }
+  }
+
+  .form-data {
+    text-align: left;
+    position: absolute;
+    background-color: $default-white;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    padding: 20px 20px 20px 20px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    width: 320px;
+    top: 600px;
+    @include translateY(-50%);
+    border-radius: 2px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+
+    h1 {
+      padding: 0;
+      color: $nma-main-green;
+      margin: 0;
+    }
+
+    .input-form {
+      width: 100% !important;
+    }
+
+    .darker-button {
+      float: right;
+      margin: 0;
+      button, a {
+        background-color: $nma-main-green !important;
+      }
+    }
+
+    .link-group {
+      width: 100%;
+      position: relative;
+      display: inline-block;
+      text-align: center;
+      hr {
+        width: 80%;
+      }
+      a {
+        display: inline-block;
+        width: 100%;
+        font-size: $header-anchor-font-size * 1.2;
+        padding-bottom: 5px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        line-height: normal;
+        color: $nma-main-green-light;
+        &:hover {
+          color: $nma-main-green-hover !important;
+          @include transition(.3s ease-in-out);
+        }
+      }
+    }
+
+  }
+
+  .form-data.verify {
+    top: 553px;
+  }
+
+  .form-data.retrieve {
+    top: 515px;
+  }
+
+  .form-data.signup {
+    top: 602px;
+    .dark-button {
+      margin: 0;
+    }
+    p {
+      display: inline-block;
+      width: 100%;
+      font-size: $header-anchor-font-size * 0.9;
+      padding-bottom: 0;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
+      line-height: normal;
+      color: $nma-main-green-light;
+      margin: 0;
+    }
+  }
+
+  .upper-globe {
+    margin: 45px 0 0 0;
+    background-image: url('../png/Globe.png');
+    background-attachment: scroll;
+    background-position: center 0;
+    background-repeat: no-repeat;
+    background-size: 1322px 1418px;
+    .internal {
+      width: 100%;
+      height: 500px
+    }
+  }
+
+  .upper-globe.register {
+    background-image: url('../png/Globe-Verify.png') !important;
+  }
+
+  .upper-globe.verify {
+    background-image: url('../png/Globe-Account.png') !important;
+  }
+
+  .light-button {
+    margin: 0 5px;
+    span {
+      color: $nma_main_green !important;
+    }
+  }
+
+  .dark-button {
+    margin: 0 5px;
+    button, a {
+      background-color: $nma-main-green-light !important;
     }
   }
 

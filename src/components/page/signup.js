@@ -24,7 +24,7 @@ const buttonStyle = {
   marginTop: 15,
 };
 
-class Signin extends Component {
+class Signup extends Component {
   render() {
     return (
 
@@ -33,10 +33,10 @@ class Signin extends Component {
 
           <div className="main-text">
             <h1>
-              Log in for Better Experience
+              Sign up for Better Experience
             </h1>
             <h2>
-              Enter your username and password, and enjoy customizable search functionalities
+              Register for your username and password, and enjoy customizable search functionalities
             </h2>
           </div>
 
@@ -44,21 +44,20 @@ class Signin extends Component {
               <div className="internal"></div>
           </div>
 
-          <div className="form-data">
-            <h1>Sign in</h1>
+          <div className="form-data signup">
+            <h1>Sign up</h1>
             <TextField className="input-form" hintText="" floatingLabelText="Email Address" floatingLabelFixed={true}
               errorStyle={styles.errorStyle} floatingLabelStyle={styles.floatingLabelStyle} underlineFocusStyle={styles.underlineStyle}
               floatingLabelFocusStyle={styles.floatingLabelFocusStyle}/><br />
             <TextField className="input-form" hintText="" floatingLabelText="Password" floatingLabelFixed={true} type="password"
               errorStyle={styles.errorStyle} floatingLabelStyle={styles.floatingLabelStyle} underlineFocusStyle={styles.underlineStyle}
               floatingLabelFocusStyle={styles.floatingLabelFocusStyle}/><br />
-            <RaisedButton className="darker-button" type="submit" label="Sign in" primary={true} style={buttonStyle} />
-            <div className="link-group">
-              <hr />
-              <Link to="/signup">Sign up Now</Link>
-              <Link to="/verify">Verify Account</Link>
-              <Link to="/forget">Forget Password</Link>
-            </div>
+            <p>Contains at least 8 characters with one symbol and one capital letter</p><br />
+            <TextField className="input-form" hintText="" floatingLabelText="Confirm Password" floatingLabelFixed={true} type="password"
+              errorStyle={styles.errorStyle} floatingLabelStyle={styles.floatingLabelStyle} underlineFocusStyle={styles.underlineStyle}
+              floatingLabelFocusStyle={styles.floatingLabelFocusStyle}/><br />
+            <RaisedButton className="dark-button" label="Back" primary={true} style={buttonStyle} containerElement={<Link to="/signin"></Link>} />
+            <RaisedButton className="darker-button" type="submit" label="Sign up" primary={true} style={buttonStyle} />
           </div>
 
         </div>
@@ -68,4 +67,4 @@ class Signin extends Component {
   }
 }
 
-export default Signin;
+export default Signup;

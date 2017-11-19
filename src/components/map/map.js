@@ -9,6 +9,7 @@ import Taxi from './taxi';
 import Bike from './bike';
 import Bus from './bus';
 import Train from './train';
+import Building from './building';
 
 import {FlatMercatorViewport} from 'viewport-mercator-project';
 
@@ -54,6 +55,8 @@ class Map extends Component {
       bikeSearchDistance: 0,
       busData: [],
       busSearchDistance: 0,
+      buildingData: [],
+      buildingSearchDistance: 0,
 
       ofoNumberData: [],
       taxiNumberData: [],
@@ -108,11 +111,6 @@ class Map extends Component {
         });
       };
     });
-
-    // Load from server
-    // this.loadTaxiData();
-    // this.loadBikeData();
-    // this.loadBusData();
   }
 
   checkUserLocation(userLat, userLon) {
@@ -180,8 +178,18 @@ class Map extends Component {
     // Handle window resizing
     window.addEventListener('resize', this.handleResize.bind(this));
 
-    // this.loadOfoBikeData();
-    // this.loadTaxiNumberData();
+    this.loadOfoBikeData();
+    this.loadTaxiNumberData();
+
+    // Load from server
+    this.loadTaxiData();
+    setInterval(this.loadTaxiData.bind(this), 180000);
+    this.loadBikeData();
+    setInterval(this.loadBikeData.bind(this), 180000);
+    this.loadBusData();
+    setInterval(this.loadBusData.bind(this), 60000);
+
+    this.loadBuildingData();
   }
 
   componentWillUnmount() {
@@ -262,6 +270,30 @@ class Map extends Component {
     });
   }
 
+  loadBuildingData() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      $.ajax({
+        url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/get-connected-building",
+        type: "get",
+        data: {
+          lat: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ?  position.coords.latitude : defaultMapState.centerLat,
+          lon: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.longitude : defaultMapState.centerLon
+        },
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+          this.setState({
+            buildingData: data.buildings.results == null ? [] : data.buildings.results,
+            buildingSearchDistance: data.buildings.search_distance == null ? 0 : data.buildings.search_distance
+          });
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(status, err.toString());
+        }
+      });
+    });
+  }
+
   loadOfoBikeData() {
     $.ajax({
       url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/query-ofo-number",
@@ -322,15 +354,21 @@ class Map extends Component {
     );
   }
 
-  renderTaxi() {
+  renderBuilding() {
     var item = {
-      "lat": 1.29742638901257,
-      "lon": 103.77803111102236,
-      "code": "taxi 123",
-      "type": "taxi",
-      "brand": "Public",
-      "dist": 0.19771657083369631
+      "index": 60,
+      "lat": 1.297012,
+      "lon": 103.777859,
+      "name": "University Hall"
     }
+    return (
+      <div className="building">
+        <Building viewport={this.state.viewport} buidlingData={this.state.buildingData} zoom={this.state.zoom} {...item} userLat={this.state.userLat} userLon={this.state.userLon} />
+      </div>
+    );
+  }
+
+  renderTaxi() {
     return (
       <div className="taxi">
       {
@@ -338,22 +376,11 @@ class Map extends Component {
           <Taxi viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} taxiNumberData={this.state.taxiNumberData} taxiNumberLoading={this.state.taxiNumberLoading} taxiNumberLoadingFailure={this.state.taxiNumberLoadingFailure}/>
         ))
       }
-      <Taxi viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} taxiNumberData={this.state.taxiNumberData} taxiNumberLoading={this.state.taxiNumberLoading} taxiNumberLoadingFailure={this.state.taxiNumberLoadingFailure}/>
       </div>
     );
   }
 
   renderBus() {
-    var item = {
-      "arrival": [{"public bus": [{"95": ["16", "30"]}, {"123(Dummy)": ["Arr", "3"]}]}, {"shuttle bus": [{"A2": ["4", "-"]}, {"D2": ["2", "5"]}]}],
-      "lat": 1.29752638901257,
-      "lon": 103.77813111102236,
-      "name": "Opp University Hall",
-      "code": "18319/UHALL-OPP",
-      "type": "public bus/shuttle bus",
-      "brand": "Public/NUS",
-      "dist": 0.19771657083369631
-    }
     return (
       <div className="bus">
       {
@@ -361,28 +388,11 @@ class Map extends Component {
           <Bus viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} />
         ))
       }
-        <Bus viewport={this.state.viewport} zoom={this.state.zoom} key={item.code} {...item} />
       </div>
     );
   }
 
   renderBike() {
-    var item1 = {
-      "lat": 1.29732638901257,
-      "lon": 103.77413111102236,
-      "code": "29",
-      "type": "bike",
-      "brand": "Ofo",
-      "dist": 0.19771657083369631
-    }
-    var item2 = {
-      "lat": 1.29742638901257,
-      "lon": 103.7763111102236,
-      "code": "A006037464#",
-      "type": "bike",
-      "brand": "Mobike",
-      "dist": 0.19771657083369631
-    }
     return (
       <div className="bike">
       {
@@ -390,8 +400,6 @@ class Map extends Component {
           <Bike viewport={this.state.viewport} {...item} zoom={this.state.zoom} key={item.code} ofoNumberData={this.state.ofoNumberData} ofoNumberLoading={this.state.ofoNumberLoading} ofoNumberLoadingFailure={this.state.ofoNumberLoadingFailure} />
         ))
       }
-      <Bike viewport={this.state.viewport} {...item1} zoom={this.state.zoom} key={item1.code} ofoNumberData={this.state.ofoNumberData} ofoNumberLoading={this.state.ofoNumberLoading} ofoNumberLoadingFailure={this.state.ofoNumberLoadingFailure} />
-      <Bike viewport={this.state.viewport} {...item2} zoom={this.state.zoom} key={item2.code} ofoNumberData={this.state.ofoNumberData} ofoNumberLoading={this.state.ofoNumberLoading} ofoNumberLoadingFailure={this.state.ofoNumberLoadingFailure} />
       </div>
     );
   }
@@ -413,6 +421,7 @@ class Map extends Component {
         {this.renderBike()}
         {this.renderBus()}
         {this.renderTrain()}
+        {this.renderBuilding()}
       </div>
     );
   }
