@@ -29,13 +29,21 @@ Highcharts.theme = {
 Highcharts.setOptions(Highcharts.theme);
 
 class App extends Component {
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      signedIn: false
+    };
+  }
+
   render() {
     return (
       <MuiThemeProvider>
         <Router>
           <div className="main-app">
 
-            <Route component={Header} />
+            <Route component={Header}/>
             <Route exact path="/" component={Homepage} />
             <Route exact path="/signin" component={Signin} />
             <Route exact path="/signup" component={Signup} />

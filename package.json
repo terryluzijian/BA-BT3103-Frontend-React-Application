@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "amazon-cognito-identity-js": "^1.26.0",
     "dotenv": "^4.0.0",
     "emotion": "^8.0.10",
     "geolib": "^2.0.24",

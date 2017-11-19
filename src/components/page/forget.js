@@ -33,7 +33,7 @@ class Forget extends Component {
 
           <div className="main-text">
             <h1>
-              Sign up for Better Experience
+              Sign in for Better Experience
             </h1>
             <h2>
               Register for your username and password, and enjoy customizable search functionalities

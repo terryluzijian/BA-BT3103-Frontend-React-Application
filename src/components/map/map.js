@@ -178,16 +178,16 @@ class Map extends Component {
     // Handle window resizing
     window.addEventListener('resize', this.handleResize.bind(this));
 
-    this.loadOfoBikeData();
-    this.loadTaxiNumberData();
+    // this.loadOfoBikeData();
+    // this.loadTaxiNumberData();
 
     // Load from server
-    this.loadTaxiData();
-    setInterval(this.loadTaxiData.bind(this), 180000);
-    this.loadBikeData();
-    setInterval(this.loadBikeData.bind(this), 180000);
-    this.loadBusData();
-    setInterval(this.loadBusData.bind(this), 60000);
+    // this.loadTaxiData();
+    // setInterval(this.loadTaxiData.bind(this), 180000);
+    // this.loadBikeData();
+    // setInterval(this.loadBikeData.bind(this), 180000);
+    // this.loadBusData();
+    // setInterval(this.loadBusData.bind(this), 60000);
 
     this.loadBuildingData();
   }
@@ -276,8 +276,8 @@ class Map extends Component {
         url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/get-connected-building",
         type: "get",
         data: {
-          lat: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ?  position.coords.latitude : defaultMapState.centerLat,
-          lon: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.longitude : defaultMapState.centerLon
+          lat: 1.297012, //(this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ?  position.coords.latitude : defaultMapState.centerLat,
+          lon: 103.777859 //(this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.longitude : defaultMapState.centerLon
         },
         dataType: 'json',
         cache: false,
@@ -355,15 +355,25 @@ class Map extends Component {
   }
 
   renderBuilding() {
-    var item = {
-      "index": 60,
-      "lat": 1.297012,
-      "lon": 103.777859,
-      "name": "University Hall"
-    }
+    var path = [];
+    var pathDictionary = {}
+    this.state.buildingData.map((item, index) => (
+      item.map((item, index) => (
+        index < 1 && (path.push(item[0].name)) && (pathDictionary[item[0].name] = {'lat': item[0].lat, 'lon': item[1].lon, 'paths': []})
+      ))
+    ))
+    this.state.buildingData.map((item, index) => (
+      item.map((item, index) => (
+        index < 20 && (pathDictionary[item[0].name].paths.push(item.slice(1)))
+      ))
+    ))
     return (
       <div className="building">
-        <Building viewport={this.state.viewport} buidlingData={this.state.buildingData} zoom={this.state.zoom} {...item} userLat={this.state.userLat} userLon={this.state.userLon} />
+        {
+          Object.keys(pathDictionary).map((key, index) => (
+            <Building {...this.state} viewport={this.state.viewport} {...pathDictionary[key]} buildings={Object.keys(pathDictionary)} zoom={this.state.zoom} key={key} userLat={this.state.userLat} userLon={this.state.userLon} name={key}/>
+          ))
+        }
       </div>
     );
   }

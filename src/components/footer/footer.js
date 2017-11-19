@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import LogoDarkIcon from '../../asset/svg/Logo-Dark.svg';
 
 class Footer extends Component {
   render() {
