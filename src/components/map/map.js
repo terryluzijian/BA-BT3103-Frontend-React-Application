@@ -178,16 +178,16 @@ class Map extends Component {
     // Handle window resizing
     window.addEventListener('resize', this.handleResize.bind(this));
 
-    // this.loadOfoBikeData();
-    // this.loadTaxiNumberData();
+    this.loadOfoBikeData();
+    this.loadTaxiNumberData();
 
-    // Load from server
-    // this.loadTaxiData();
-    // setInterval(this.loadTaxiData.bind(this), 180000);
-    // this.loadBikeData();
-    // setInterval(this.loadBikeData.bind(this), 180000);
-    // this.loadBusData();
-    // setInterval(this.loadBusData.bind(this), 60000);
+    //Load from server
+    this.loadTaxiData();
+    setInterval(this.loadTaxiData.bind(this), 180000);
+    this.loadBikeData();
+    setInterval(this.loadBikeData.bind(this), 180000);
+    this.loadBusData();
+    setInterval(this.loadBusData.bind(this), 60000);
 
     this.loadBuildingData();
   }
@@ -204,7 +204,7 @@ class Map extends Component {
         url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/get-all-taxi",
         type: "get",
         data: {
-          lat: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ?  position.coords.latitude : defaultMapState.centerLat,
+          lat: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.latitude : defaultMapState.centerLat,
           lon: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.longitude : defaultMapState.centerLon
         },
         dataType: 'json',
@@ -228,7 +228,7 @@ class Map extends Component {
         url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/get-all-buses",
         type: "get",
         data: {
-          lat: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ?  position.coords.latitude : defaultMapState.centerLat,
+          lat: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.latitude : defaultMapState.centerLat,
           lon: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.longitude : defaultMapState.centerLon
         },
         dataType: 'json',
@@ -252,7 +252,7 @@ class Map extends Component {
         url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/get-all-bikes",
         type: "get",
         data: {
-          lat: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ?  position.coords.latitude : defaultMapState.centerLat,
+          lat: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.latitude : defaultMapState.centerLat,
           lon: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.longitude : defaultMapState.centerLon
         },
         dataType: 'json',
@@ -276,8 +276,8 @@ class Map extends Component {
         url: "https://carvpx8wn6.execute-api.ap-southeast-1.amazonaws.com/v1/get-connected-building",
         type: "get",
         data: {
-          lat: 1.297012, //(this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ?  position.coords.latitude : defaultMapState.centerLat,
-          lon: 103.777859 //(this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.longitude : defaultMapState.centerLon
+          lat: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.latitude : defaultMapState.centerLat,
+          lon: (this.checkUserLocation(position.coords.latitude, position.coords.longitude)) ? position.coords.longitude : defaultMapState.centerLon
         },
         dataType: 'json',
         cache: false,

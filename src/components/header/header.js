@@ -102,25 +102,33 @@ class Header extends Component {
           </Link>
         </div>
 
+        {this.props.location.pathname === '/transport' ? <IconMenu className='mobile-nav' style={menuDefaultStyle}
+          iconButtonElement={<IconButton><MoreVertIcon className="menu-icon" color={this.state.theme === 'white' ? '#2B667F' : '#FFFFFF'} /></IconButton>}
+          anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'right', vertical: 'top'}}>
+          <MenuItem className="menu-item" innerDivStyle={innerDivStyle} style={linkStyle} primaryText="Sign out" containerElement={<Link to="/">SIGN OUT</Link>}/>
+        </IconMenu> :
         <IconMenu className='mobile-nav' style={menuDefaultStyle}
           iconButtonElement={<IconButton><MoreVertIcon className="menu-icon" color={this.state.theme === 'white' ? '#2B667F' : '#FFFFFF'} /></IconButton>}
           anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
           targetOrigin={{horizontal: 'right', vertical: 'top'}}>
-
           <MenuItem className="menu-item" innerDivStyle={innerDivStyle} style={linkStyle} primaryText="About" containerElement={<Link to="/about">About</Link>}/>
-          <MenuItem className="menu-item" innerDivStyle={innerDivStyle} style={linkStyle} primaryText="Transport" containerElement={<Link to="/transport">Transport</Link>}/>
           <MenuItem className="menu-item" innerDivStyle={innerDivStyle} style={linkStyle} primaryText="Analytics" containerElement={<Link to="/analytics">Analytics</Link>}/>
           <MenuItem className="menu-item" innerDivStyle={innerDivStyle} style={linkStyle} primaryText="Sign in" containerElement={<Link to="/signin">Sign in</Link>}/>
 
-        </IconMenu>
+        </IconMenu>}
 
+        {this.props.location.pathname === '/transport' ? <nav style={navDefaultStyle}>
+          <ul>
+            <li className="last">
+              <Link to="/">Sign out</Link>
+            </li>
+          </ul>
+        </nav> :
         <nav style={navDefaultStyle}>
           <ul>
             <li className="first">
               <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/transport">Transport</Link>
             </li>
             <li>
               <Link to="/analytics">Analytics</Link>
@@ -129,7 +137,7 @@ class Header extends Component {
               <Link to="/signin">Sign in</Link>
             </li>
           </ul>
-        </nav>
+        </nav>}
 
       </header>
     );

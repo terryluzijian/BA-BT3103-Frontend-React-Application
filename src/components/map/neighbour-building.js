@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import BuildingIcon from '../../asset/svg/Building-Neighbour.svg';
 
-import $ from 'jquery';
 import geolib from 'geolib';
-
-import { ClipLoader } from 'react-spinners';
 
 class NeighbourBuilding extends Component {
 
