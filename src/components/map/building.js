@@ -17,7 +17,8 @@ class Building extends Component {
     this.state = {
       hide: true,
       hovering: false,
-      dataSize: 2
+      dataSize: 2,
+      buildingUnique: {}
     };
   }
 
@@ -56,6 +57,18 @@ class Building extends Component {
     }
   }
 
+  componentDidMount() {
+    var buildingDictionaryForState = {};
+    this.props.paths.map((item, index) =>
+      item.map((item,index) =>
+        item.name in buildingDictionaryForState || (buildingDictionaryForState[item.name] = true)
+      )
+    );
+    this.setState({
+      buildingUnique: buildingDictionaryForState
+    });
+  }
+
   renderPaths() {
     var buildingDictionary = {};
     return (
@@ -85,7 +98,7 @@ class Building extends Component {
       margin: (this.props.zoom < 15.5) && "0px"
     }
 
-    var contentHeight = 25;
+    var contentHeight = 44;
 
     return (
       <div>
@@ -93,11 +106,12 @@ class Building extends Component {
           onMouseEnter={this.handleMouseEnter.bind(this)} onMouseLeave={this.handleMouseLeave.bind(this)} onClick={this.hideContent.bind(this)}>
           <div key="tip" className="mapboxgl-popup-tip" />
           <div key="content" className="mapboxgl-popup-content">
-            <img className="map-icon" src={BuildingIcon} alt='' style={iconStyle} />
+            <img className="map-icon" src="https://s3-ap-southeast-1.amazonaws.com/bt3103-nus-mobility-web-app/static/media/Building.d2d7419b.svg" alt='' style={iconStyle} />
             {this.state.hide || <a className="close-button">×</a>}
               {(this.props.zoom >= 15.5 || !this.state.hide) && <p>{geolib.getDistance([this.props.lat, this.props.lon], [this.props.userLat, this.props.userLon])}m</p>}
-            {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: contentHeight, width: 100}}>
+            {this.state.hide ? <div className="transport-info hide"/> : <div className="transport-info active" style={{height: contentHeight, width: 120}}>
               <p className="title">{this.props.name}</p>
+              <p>{Object.keys(this.state.buildingUnique).length} Reachable Buildings</p>
             </div>}
           </div>
         </div>

@@ -55,7 +55,7 @@ class BusChart extends Component {
           pointWidth: 13
         }
       },
-      series: [
+      series: this.props.busType.length > 0 && (this.props.busType.length === 2 ? [
         this.props.chartData['public bus'] != null && {
           name: 'Public Bus',
           color: shuffled[0],
@@ -65,11 +65,23 @@ class BusChart extends Component {
           name: 'Shuttle Bus',
           color: shuffled[1],
           data: this.props.chartData['shuttle bus']
-        }
-      ]
+        }] :
+        (this.props.busType[0] === 'shuttle bus' ? [
+          this.props.chartData['shuttle bus'] != null && {
+            name: 'Shuttle Bus',
+            color: shuffled[0],
+            data: this.props.chartData['shuttle bus']
+          }] : [
+          this.props.chartData['public bus'] != null && {
+            name: 'Public Bus',
+            color: shuffled[0],
+            data: this.props.chartData['public bus']
+          }]
+        )
+      ),
     });
-    chart.series[0].data[11] != null && chart.series[0].data[11].setState('hover');
-    chart.series[1].data[11] != null && chart.series[1].data[11].setState('hover');
+    this.props.busType > 0 && chart.series[0].data[11] != null && chart.series[0].data[11].setState('hover');
+    this.props.busType > 0 && chart.series[1].data[11] != null && chart.series[1].data[11].setState('hover');
   }
 
   render() {

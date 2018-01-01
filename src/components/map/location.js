@@ -66,7 +66,8 @@ class Location extends Component {
       <div className="mapboxgl-popup mapboxgl-popup-anchor-bottom" style={defaultContainerStyle} onMouseEnter={this.handleMouseEnter.bind(this)} onMouseLeave={this.handleMouseLeave.bind(this)} onClick={this.hideContent.bind(this)}>
         <div key="tip" className="mapboxgl-popup-tip" />
         <div key="content" className="mapboxgl-popup-content">
-          <img className="map-icon-main" src={this.props.failToGetLocation ? Home : UserLocation} alt='' />
+          {this.state.hide || <a className="close-button">×</a>}
+          <img className="map-icon-main" src={this.props.failToGetLocation ? "https://s3.ap-southeast-1.amazonaws.com/bt3103-nus-mobility-web-app/static/media/Home.bbacb71d.svg" : "https://s3.ap-southeast-1.amazonaws.com/bt3103-nus-mobility-web-app/static/media/UserLocation.87da16db.svg"} alt='' />
           {this.props.zoom >= 15.5 && <p>{this.props.failToGetLocation ? "Central, NUS" : "You're here"}</p>}
           {this.state.hide ? <div className="transport-info hide"/> :
             <div className="transport-info active" style={{height: contentHeight}}>

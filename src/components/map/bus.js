@@ -121,13 +121,13 @@ class Bus extends Component {
 
     let BusMapIcon = null;
     if (this.props.brand === "Public") {
-      BusMapIcon = <img className="map-icon" src={BusIcon} alt='' style={iconStyle} />;
+      BusMapIcon = <img className="map-icon" src="https://s3-ap-southeast-1.amazonaws.com/bt3103-nus-mobility-web-app/static/media/Bus.ec54d4ea.svg" alt='' style={iconStyle} />;
     }
     else if (this.props.brand === "Public/NUS") {
-      BusMapIcon = <img className="map-icon" src={BusCombinedIcon} alt='' style={iconStyle}/>;
+      BusMapIcon = <img className="map-icon" src="https://s3-ap-southeast-1.amazonaws.com/bt3103-nus-mobility-web-app/static/media/Bus-Combined.4c5b670d.svg" alt='' style={iconStyle}/>;
     }
     else if (this.props.brand === "NUS") {
-      BusMapIcon = <img className="map-icon" src={BusSchoolIcon} alt='' style={iconStyle}/>;
+      BusMapIcon = <img className="map-icon" src="https://s3-ap-southeast-1.amazonaws.com/bt3103-nus-mobility-web-app/static/media/Bus-School.6942dd08.svg" alt='' style={iconStyle}/>;
     }
 
     var contentHeight = (this.state.loading ? 46 : (150 + 19 + 14.5)) + 12.9 + 1.75 + (this.state.dataSize - 1) * 19 + (this.state.publicNotAvailable ? 19 : 0);

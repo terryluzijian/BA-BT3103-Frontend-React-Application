@@ -130,13 +130,13 @@ class Bike extends Component {
 
     let BikeIcon = null;
     if (this.props.brand === "Obike") {
-      BikeIcon = <img className="map-icon" src={Obike} alt='' style={iconStyle} />;
+      BikeIcon = <img className="map-icon" src="https://s3.ap-southeast-1.amazonaws.com/bt3103-nus-mobility-web-app/static/media/Bike-Obike.d3e4460b.svg" alt='' style={iconStyle} />;
     }
     else if (this.props.brand === "Ofo") {
-      BikeIcon = <img className="map-icon" src={Ofo} alt='' style={iconStyle}/>;
+      BikeIcon = <img className="map-icon" src="https://s3.ap-southeast-1.amazonaws.com/bt3103-nus-mobility-web-app/static/media/Bike-Ofo.42bfc628.svg" alt='' style={iconStyle}/>;
     }
     else if (this.props.brand === "Mobike") {
-      BikeIcon = <img className="map-icon" src={Mobike} alt='' style={iconStyle}/>;
+      BikeIcon = <img className="map-icon" src="https://s3.ap-southeast-1.amazonaws.com/bt3103-nus-mobility-web-app/static/media/Bike-Mobike.c839f8cc.svg" alt='' style={iconStyle}/>;
     }
 
     var contentHeight;

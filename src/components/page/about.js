@@ -26,7 +26,7 @@ class About extends Component {
           </div>
 
           <div className="button-group">
-            <RaisedButton className="light-button" label="Start Your Journey" style={style} containerElement={<Link to="/transport"></Link>} />
+            <RaisedButton className="light-button" label="Start Your Journey" style={style} containerElement={<Link to="/signin"></Link>} />
             <RaisedButton className="dark-button" label="Get a Account" primary={true} style={style} containerElement={<Link to="/signup"></Link>} />
           </div>
 

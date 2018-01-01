@@ -26,7 +26,7 @@ class Homepage extends Component {
           </div>
 
           <div className="button-group">
-            <RaisedButton className="light-button" label="Try Now" style={style} containerElement={<Link to="/transport"></Link>} />
+            <RaisedButton className="light-button" label="Try Now" style={style} containerElement={<Link to="/signin"></Link>} />
             <RaisedButton className="dark-button" label="Register" primary={true} style={style} containerElement={<Link to="/signup"></Link>} />
           </div>
 

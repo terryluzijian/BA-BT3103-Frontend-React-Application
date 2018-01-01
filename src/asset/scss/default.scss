@@ -62,16 +62,18 @@ footer {
   color: $nma-main-green;
   text-align: center;
   padding: 24px 2%;
-  z-index: -1;
+  box-shadow: inset 0 7px 9px -7px rgba(0, 0, 0, 0.12), inset 0 7px 9px -7px rgba(0, 0, 0, 0.12) ;
 
-  a, i {
-    font-size: $header-anchor-font-size;
-    line-height: normal;
-    color: $nma-main-green;
-    @include transition(.3s ease-in-out);
-    &:hover {
-      color: $nma-main-green-hover !important;
+  .community {
+    a {
+      font-size: $header-anchor-font-size;
+      line-height: normal;
+      color: $nma-main-green;
       @include transition(.3s ease-in-out);
+      &:hover {
+        color: $nma-main-green-hover !important;
+        @include transition(.3s ease-in-out);
+      }
     }
   }
 
@@ -91,7 +93,6 @@ footer {
   padding: 5% 0 0 0;
   margin: 0;
   font-family: 'Cera', sans-serif;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
   z-index: 1;
 
   h1, h2 {
